@@ -1,0 +1,201 @@
+//-----------------------------------------------------------------------------
+// Daily Domain
+//-----------------------------------------------------------------------------
+
+// the domain ----------------------
+
+define domain_daily
+	domain daily
+	use shard_daily_unifier
+	use shard_daily_ring01
+	use shard_daily_ring02
+	use shard_daily_mainland01
+	use shard_daily_mainland02
+
+	// domain name
+	cfg DomainName = "r2";
+	// domain ports
+	cfg ASWebPort = "46700";
+	cfg ASPort = "46701";
+	cfg AESPort = "46702";
+	cfg SUPort = 50505;
+	cfg SUGlobalPort = 50503;
+	cfg L3BSPort = "49950";
+	cfg L3SlaveBSPort = "49951";
+	cfg BasePort = 51000;
+	cfg NSPort = 50001;
+	cfg L3MasterLGSPort = 49992;
+//	cfg L3SlaveLGSPort = 49993;
+	cfg LGSBSPort = 49994;
+	cfg L3LGSBSPort = 49995;
+
+	// domain hosts
+	cfg SUHost = "r2linux03";
+	cfg MFSHost = "r2linux03";
+	cfg BSHost = "r2linux02";
+	cfg DBHost = "r2linux03";
+	cfgAfter WebSrvHost = "http://r2linux03:50000/";
+	cfg MasterLGSHost = "r2linux03";
+	cfg SlaveLGSHost = "r2linux03";
+	cfg LGSBSHost = "r2linux03";
+	
+
+	// NFS mapping for files loaded via NFS
+	cfg SaveShardRoot="/mnt/r2linux02/daily/save_shard";
+
+	// Dissable the second LGS service because we only launch one in this domain
+	cfg #define DONT_USE_LGS_SLAVE
+
+	// initial config files
+	cfgFile ../cfg/00_base.cfg
+	cfgFile ../cfg/01_domain_daily.cfg
+
+	cfgAfter NSHost = "localhost:" + NSPort;
+
+	// shard names and ids
+	cfgAfter Mainlands = {
+	cfgAfter 	"245", "R2Linux02 (Too)", "(EN)", "en",
+	cfgAfter 	"246", "R2Linux03 (Tree)", "(FR)", "fr",
+	cfgAfter };
+	cfgAfter HomeMainlandNames =
+	cfgAfter {
+	cfgAfter 	"245", "Too", "too",
+	cfgAfter 	"246", "Tree", "tre",
+	cfgAfter };
+
+	// addition of extra filters for this domain
+	//cfgAfter NegFiltersDebug+= {"DEFAULT_CB", "NET","ADMIN","MIRROR"};
+	//cfgAfter NegFiltersInfo+= {"NET"};
+	//cfgAfter NegFiltersWarning+= {"AES"};
+	cfgAfter DefaultCharRingAccess="a1";
+
+	// hook for local overrides (per machine)
+	cfgAfter #optional "../local.cfg"
+
+	// Activate logging of time consuming AStar searches
+	cfg LogTimeConsumingAStar = 1;
+
+
+// shard unifier -------------------
+
+define shard_daily_unifier
+	shard unifier
+	use shard_exe_set_daily_ras
+	use shard_exe_set_daily_unifier
+	use shard_exe_set_daily_backup
+	use shard_exe_set_daily_lgs
+
+define shard_exe_set_daily_ras
+	use ras
+	host r2linux03.nevrax.net
+
+define shard_exe_set_daily_unifier
+	use exe_set_mini_unifier
+	use mfs_std
+	host r2linux03.nevrax.net
+
+define shard_exe_set_daily_backup
+	use exe_set_std_backup_master
+	host r2linux02.nevrax.net
+	// override for SaveShardRoot - which is local and not accessed via NFS
+	cfg SaveShardRoot="/home/nevrax/daily/save_shard/";
+
+define shard_exe_set_daily_lgs
+	use exe_set_std_lgs_master
+	use backup_lgs
+	host r2linux03.nevrax.net
+
+
+// shard ring01 --------------------
+
+define shard_daily_ring01
+	shard ring01
+	use shard_exe_set_daily_ring01
+	cfg ShardId = 244;
+	cfg SaveFilesDirectory="ring01";
+//	cfg #include "../live/cfg/02_shard_type_mini_ring.cfg"
+	cfgFile ../cfg/02_shard_type_mini_ring.cfg
+
+define shard_exe_set_daily_ring01
+	use exe_set_mini_ring
+	host r2linux01.nevrax.net
+	cfg FSListenHost = "r2linux01";
+
+
+// shard ring02 --------------------
+
+define shard_daily_ring02
+	shard ring02
+	use shard_exe_set_daily_ring02
+	cfg ShardId = 243;
+	cfg SaveFilesDirectory="ring02";
+//	cfg #include "../live/cfg/02_shard_type_mini_ring.cfg"
+	cfgFile ../cfg/02_shard_type_mini_ring.cfg
+
+define shard_exe_set_daily_ring02
+	use exe_set_mini_ring
+	host r2linux03.nevrax.net
+	cfg FSListenHost = "r2linux03";
+
+
+// shard mainland01 ----------------
+
+define shard_daily_mainland01
+	shard mainland01
+	use shard_exe_set_daily_mainland01
+	cfg ShardId = 245;
+	cfg SaveFilesDirectory="mainland01";
+//	cfg #include "../live/cfg/02_shard_type_mini_mainland.cfg"
+	cfgFile ../cfg/02_shard_type_mini_mainland.cfg
+
+
+define shard_exe_set_daily_mainland01
+	use exe_set_mini_mainland
+	host r2linux02.nevrax.net
+	cfg FSListenHost = "r2linux02";
+
+
+// shard mainland02 ----------------
+
+define shard_daily_mainland02
+	shard mainland02
+	use shard_exe_set_daily_mainland02
+	cfg ShardId = 246;
+	cfg SaveFilesDirectory="mainland02";
+	cfg #include "../live/cfg/02_shard_type_mini_mainland.cfg"
+
+define shard_exe_set_daily_mainland02
+	use exe_set_mini_mainland
+	host badserver.nevrax.net
+	cfg FSListenHost = "badserver.nevrax.net";
+
+
+// the daily las domain ------------
+
+define domain_daily_las
+	domain las
+	use shard_daily_las
+
+	// domain ports
+	cfg ASWebPort="46760";
+	cfg ASPort="46761";
+	cfg AESPort="46762";
+
+	// initial config files
+	cfgFile ../cfg/00_base.cfg
+//	cfgFile ../cfg/01_domain_daily.cfg
+
+	// addition of extra filters for this domain
+	//cfgAfter NegFiltersDebug+= {"DEFAULT_CB", "NET","ADMIN","MIRROR","CDB_MULTI_IMPULSION"};
+	//cfgAfter NegFiltersInfo+= {"NET", "FETIME","TimerManagerUpdate"};
+	//cfgAfter NegFiltersWarning+= {"AES"};
+	cfgAfter DontUseAES=1;
+
+define shard_daily_las
+	shard daily_las
+	cfg ShardId = 99;
+	use ras
+	use raes
+	use las
+	cfgAfter StartCommands += {"PDRootDirectory /home/nevrax/daily/save_shard/mainland02/pds"};
+	host r2linux03.nevrax.net

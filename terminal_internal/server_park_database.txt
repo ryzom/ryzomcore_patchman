@@ -1,0 +1,46 @@
+// ---------------------------------
+// common definitions
+
+include "../shard_ctrl_definitions.txt"
+
+
+// ---------------------------------
+// head domain
+
+include "../shard_ctrl_head.txt"
+
+
+// ---------------------------------
+// daily domain
+
+include "../shard_ctrl_daily.txt"
+
+
+// ---------------------------------
+// rt domain
+
+include "../shard_ctrl_rt.txt"
+
+
+// ---------------------------------
+// pre_pre_live domain
+
+include "../shard_ctrl_pre_pre_live.txt"
+
+
+// ---------------------------------
+// ats domain
+
+include "../shard_ctrl_ats.txt"
+
+
+// ---------------------------------
+// pre_live domain
+
+include "../shard_ctrl_pre_live.txt"
+
+// ---------------------------------
+// leveldesign domain
+
+include "../shard_ctrl_leveldesign.txt"
+

@@ -1,0 +1,335 @@
+//-----------------------------------------------------------------------------
+// ATS Domain
+//-----------------------------------------------------------------------------
+
+// the domain ----------------------
+
+define domain_ats
+	domain ats
+	use shard_ats_unifier
+	use shard_ats_mainland01
+	use shard_ats_mainland02
+	use shard_ats_mainland03
+//	use shard_ats_mainland04
+//	use shard_ats_mainland05
+//	use shard_ats_mainland06
+	use shard_ats_ring01
+	use shard_ats_ring02
+	use shard_ats_ring03
+	
+	// domain ports
+	cfg ASWebPort="46710";
+	cfg ASPort="46711";
+	cfg AESPort="46712";
+	cfg SUPort = 50505;
+	cfg SUGlobalPort = 50503;
+	cfg L3BSPort = "49950";
+	cfg L3SlaveBSPort = "49951";
+
+	// domain hosts
+	cfg SUHost = "rsfe126.juk.shards.nvx";
+	cfg MFSHost = "rsring03.juk.shards.nvx";
+	cfg BSHost = "rsfe126.juk.shards.nvx:49990";
+	cfg SlaveBSHost= "rsfe126.juk.shards.nvx:49991";
+	// cfg PDBSHost= "r2linux02.nevrax.net:49992";
+	// cfg SlavePDBSHost= "r2linux02.nevrax.net:49993";
+	cfg DBHost = "rssql2.juk.shards.nvx";
+	cfgAfter WebSrvHost = "http://rsring03.juk.shards.nevrax.com/mfs/";
+
+	// initial config files
+	cfgFile ../cfg/00_base.cfg
+	cfgFile ../cfg/01_domain_ats.cfg
+
+	// shard names and ids
+	cfgAfter Mainlands = {
+	cfgAfter 	"101", "Aniro", "(Full - Communauté francophone)", "fr",
+	cfgAfter 	"102", "Leanon", "(Full - Deutsche Community)", "de",
+	cfgAfter 	"103", "Arispotle", "(Full - English-Speaking Community)", "en",
+//	cfgAfter 	"104", "Basil", "(Mini - English-Speaking Community)", "en",
+//	cfgAfter 	"105", "Edmund", "(Mini - English-Speaking Community)", "en",
+//	cfgAfter 	"106", "Baldric", "(Mini - English-Speaking Community)", "en",
+	cfgAfter };
+	cfgAfter HomeMainlandNames =
+	cfgAfter {
+	cfgAfter 	"101", 	"Aniro",	"ani",
+	cfgAfter 	"102", 	"Leanon",	"lea",
+	cfgAfter 	"103", 	"Arispotle",	"ari",
+	cfgAfter 	"104", 	"Basil",	"bas",
+	cfgAfter 	"105", 	"Edmund",	"edm",
+	cfgAfter 	"106", 	"Baldric",	"bal",
+	cfgAfter };
+
+	// addition of extra filters for this domain
+//	cfgAfter NegFiltersDebug+= {"DEFAULT_CB", "NET","ADMIN","MIRROR","CDB_MULTI_IMPULSION"};
+//	cfgAfter NegFiltersInfo+= {"NET", "FETIME","TimerManagerUpdate"};
+//	cfgAfter NegFiltersWarning+= {"AES"};
+	cfgAfter DontUseAES=1;
+	cfgAfter DefaultCharRingAccess="a1";
+//	cfgAfter RingAccessLimits="d3:j2:f2:l2:p2";
+	cfgAfter DomainName = "ryzom_test";
+
+	// hook for local overrides (per machine)
+	cfgAfter #optional "../local.cfg"
+
+
+// shard unifier -------------------
+
+define shard_ats_unifier
+	shard unifier
+	cfg ShardId = 100;
+	use shard_exe_set_ats_ras
+	use shard_exe_set_ats_unifier
+	use shard_exe_set_ats_backup_master
+	use shard_exe_set_ats_backup_slave
+	use login_web_pages
+
+define shard_exe_set_ats_ras
+	use ras
+	data data_www
+	host rsfe126.juk.shards.nvx
+
+define shard_exe_set_ats_unifier
+	use exe_set_std_unifier
+	host rsfe126.juk.shards.nvx
+	cfg DBPass="nevrax";
+
+define shard_exe_set_ats_backup_master
+	name bs_master
+	use bms_master
+	host rsfe126.juk.shards.nvx
+
+define shard_exe_set_ats_backup_slave
+	name bs_slave
+	use bms_slave
+	host rsfe126.juk.shards.nvx
+
+define login_web_pages
+	data data_www
+	cmdLine none
+	host rsring03.juk.shards.nvx
+
+
+// shard mainland01 ----------------
+
+define shard_ats_mainland01
+	shard mainland01
+//	use shard_exe_set_ats_mainland01_be01
+//	use shard_exe_set_ats_mainland01_be02
+//	use shard_exe_set_ats_mainland01_be03
+//	use shard_exe_set_ats_mainland01_fe01
+	use shard_exe_set_mini_ats_aniro
+	cfg ShardId = 101;
+	cfg BasePort = 52000;
+	cfg SaveFilesDirectory="ats_mainland01/";
+	cfg NSHost = "rsring01.juk.shards.nvx";
+	cfgFile ../cfg/02_shard_type_std_mainland.cfg
+
+// define shard_exe_set_ats_mainland01_be01
+// 	use exe_set_std_mainland_be01
+// 	host rsring01.juk.shards.nvx
+// 
+// define shard_exe_set_ats_mainland01_be02
+// 	use exe_set_std_mainland_be02
+// 	host rsfe110.juk.shards.nvx
+// 
+// define shard_exe_set_ats_mainland01_be03
+// 	use exe_set_std_mainland_be03
+// 	host rsfe111.juk.shards.nvx
+// 
+// define shard_exe_set_ats_mainland01_fe01
+// 	use exe_set_std_mainland_fe
+// 	host rsfe112.juk.shards.nvx
+// 	cfg FSListenHost = "rsfe112.juk.shards.nevrax.com";
+
+define shard_exe_set_mini_ats_aniro
+	use exe_set_mini_mainland
+	host rsring01.juk.shards.nvx
+	cfg FSListenHost = "rsring01.juk.shards.nevrax.com";
+
+// shard mainland02 ----------------
+
+define shard_ats_mainland02
+	shard mainland02
+// 	use shard_exe_set_ats_mainland02_be01
+// 	use shard_exe_set_ats_mainland02_be02
+// 	use shard_exe_set_ats_mainland02_be03
+// 	use shard_exe_set_ats_mainland02_fe01
+	use shard_exe_set_mini_ats_leanon
+	cfg ShardId = 102;
+	cfg BasePort = 52100;
+	cfg SaveFilesDirectory="ats_mainland02/";
+	cfg NSHost = "rsring02.juk.shards.nvx";
+	cfgFile ../cfg/02_shard_type_std_mainland.cfg
+
+// define shard_exe_set_ats_mainland02_be01
+// 	use exe_set_std_mainland_be01
+// 	host rsring02.juk.shards.nvx
+// 
+// define shard_exe_set_ats_mainland02_be02
+// 	use exe_set_std_mainland_be02
+// 	host rsfe113.juk.shards.nvx
+// 
+// define shard_exe_set_ats_mainland02_be03
+// 	use exe_set_std_mainland_be03
+// 	host rsfe114.juk.shards.nvx
+// 
+// define shard_exe_set_ats_mainland02_fe01
+// 	use exe_set_std_mainland_fe
+// 	host rsfe119.juk.shards.nvx
+// 	cfg FSListenHost = "rsfe119.juk.shards.nevrax.com";
+
+define shard_exe_set_mini_ats_leanon
+	use exe_set_mini_mainland
+	host rsring02.juk.shards.nvx
+	cfg FSListenHost = "rsring02.juk.shards.nevrax.com";
+
+
+// shard mainland03 ----------------
+
+define shard_ats_mainland03
+	shard mainland03
+	use shard_exe_set_ats_mainland03_be01
+	use shard_exe_set_ats_mainland03_be02
+	use shard_exe_set_ats_mainland03_be03
+	use shard_exe_set_ats_mainland03_fe01
+	use shard_exe_set_ats_mainland03_fe02
+	cfg ShardId = 103;
+	cfg BasePort = 52200;
+	cfg SaveFilesDirectory="ats_mainland03/";
+	cfg NSHost = "rsring04.juk.shards.nvx";
+	cfgFile ../cfg/02_shard_type_std_mainland.cfg
+
+define shard_exe_set_ats_mainland03_be01
+	use exe_set_std_mainland_be01
+	host rsring04.juk.shards.nvx
+
+define shard_exe_set_ats_mainland03_be02
+	use exe_set_std_mainland_be02
+	host rsbe011.juk.shards.nvx
+
+define shard_exe_set_ats_mainland03_be03
+	use exe_set_std_mainland_be03
+	host rsbe012.juk.shards.nvx
+
+define shard_exe_set_ats_mainland03_fe01
+	use exe_set_std_mainland_fe
+	host rsfe011.juk.shards.nvx
+	cfg FSListenHost = "rsfe011.juk.shards.nevrax.com";
+
+define shard_exe_set_ats_mainland03_fe02
+	use exe_set_std_mainland_fe
+	host rsct.juk.shards.nvx
+	cfg FSListenHost = "rsct.juk.shards.nevrax.com";
+
+
+//// shard mainland04 ----------------
+//
+//define shard_ats_mainland04
+//	shard mainland04
+//	use shard_exe_set_ats_mainland04_01
+//	cfg ShardId = 104;
+//	cfg BasePort = 52600;
+//	cfg SaveFilesDirectory="ats_mainland04/";
+//	cfg NSHost = "rsfe116.juk.shards.nvx";
+//	cfgFile ../cfg/02_shard_type_mini_mainland.cfg
+//
+//define shard_exe_set_ats_mainland04_01
+//	use exe_set_mini_mainland
+//	host rsfe116.juk.shards.nvx
+//	cfg FSListenHost = "rsfe116.juk.shards.nevrax.com";
+//
+//
+//// shard mainland05 ----------------
+//
+//define shard_ats_mainland05
+//	shard mainland05
+//	use shard_exe_set_ats_mainland05_01
+//	cfg ShardId = 105;
+//	cfg BasePort = 52700;
+//	cfg SaveFilesDirectory="ats_mainland05/";
+//	cfg NSHost = "rsfe125.juk.shards.nvx";
+//	cfgFile ../cfg/02_shard_type_mini_mainland.cfg
+//
+//define shard_exe_set_ats_mainland05_01
+//	use exe_set_mini_mainland
+//	host rsfe125.juk.shards.nvx
+//	cfg FSListenHost = "rsfe125.juk.shards.nevrax.com";
+//
+//
+//// shard mainland06 ----------------
+//
+//define shard_ats_mainland06
+//	shard mainland06
+//	use shard_exe_set_ats_mainland06_01
+//	cfg ShardId = 106;
+//	cfg BasePort = 52800;
+//	cfg SaveFilesDirectory="ats_mainland06/";
+//	cfg NSHost = "rsfe118.juk.shards.nvx";
+//	cfgFile ../cfg/02_shard_type_mini_mainland.cfg
+//
+//define shard_exe_set_ats_mainland06_01
+//	use exe_set_mini_mainland
+//	host rsfe118.juk.shards.nvx
+//	cfg FSListenHost = "rsfe118.juk.shards.nevrax.com";
+//
+//
+// shard ring01 --------------------
+
+define shard_ats_ring01
+	shard ring01
+	use shard_exe_set_ats_ring01_be
+	use shard_exe_set_ats_ring01_fe
+	cfg ShardId = 201;
+	cfg BasePort = 52300;
+	cfg SaveFilesDirectory="ats_ring01/";
+	cfg NSHost = "rsfe105.juk.shards.nvx";
+//	cfg NSHost = "rsring05.juk.shards.nvx";
+	cfgFile ../cfg/02_shard_type_std_ring.cfg
+
+define shard_exe_set_ats_ring01_be
+	use exe_set_std_ring_be
+	host rsfe105.juk.shards.nvx
+//	host rsring05.juk.shards.nvx
+
+define shard_exe_set_ats_ring01_fe
+	use exe_set_std_ring_fe
+	host rsfe005.juk.shards.nvx
+	cfg FSListenHost = "rsfe005.juk.shards.nevrax.com";
+//	host rsring06.juk.shards.nvx
+//	cfg FSListenHost = "rsring06.juk.shards.nevrax.com";
+
+
+// shard ring02 --------------------
+
+define shard_ats_ring02
+	shard ring02
+	use shard_exe_set_ats_ring02
+	cfg ShardId = 202;
+	cfg BasePort = 52400;
+	cfg SaveFilesDirectory="ats_ring02/";
+	cfgFile ../cfg/02_shard_type_mini_ring.cfg
+
+define shard_exe_set_ats_ring02
+	use exe_set_mini_ring
+//	host rsfe107.juk.shards.nvx
+//	cfg FSListenHost = "rsfe107.juk.shards.nevrax.com";
+	host rsring07.juk.shards.nvx
+	cfg FSListenHost = "rsring07.juk.shards.nevrax.com";
+
+
+//// shard ring03 --------------------
+
+define shard_ats_ring03
+	shard ring03
+	use shard_exe_set_ats_ring03
+	cfg ShardId = 203;
+	cfg BasePort = 52500;
+	cfg SaveFilesDirectory="ats_ring03/";
+	cfgFile ../cfg/02_shard_type_mini_ring.cfg
+
+define shard_exe_set_ats_ring03
+	use exe_set_mini_ring
+	host rsfe108.juk.shards.nvx
+	cfg FSListenHost = "rsfe108.juk.shards.nevrax.com";
+//	host rsring08.juk.shards.nvx
+//	cfg FSListenHost = "rsring08.juk.shards.nevrax.com";

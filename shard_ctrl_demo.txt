@@ -1,0 +1,109 @@
+//-----------------------------------------------------------------------------
+// DEMO Domain
+//-----------------------------------------------------------------------------
+
+// the domain ----------------------
+
+define domain_demo
+	domain demo
+	use shard_demo_unifier
+	use shard_demo_ring
+	use shard_demo_mainland
+	
+	// domain ports
+	cfg ASWebPort="46740";
+	cfg ASPort="46741";
+	cfg AESPort="46742";
+	cfg SUPort = 50505;
+	cfg SUGlobalPort = 50503;
+
+	// domain hosts
+	cfg SUHost = "rsring09.juk.shards.nvx";
+	cfg MFSHost = "rsring09.juk.shards.nvx";
+	cfg BSHost = "rsring09.juk.shards.nvx";
+	cfg DBHost = "rssql2.juk.shards.nvx";
+	cfgAfter WebSrvHost = "http://rsring09.juk.shards.nevrax.com/";
+
+	// initial config files
+	cfgFile ../cfg/00_base.cfg
+	cfgFile ../cfg/01_domain_demo.cfg
+
+	// shard names and ids
+	cfgAfter Mainlands = {
+	cfgAfter 	"162", "DEMO", "(EN)", "en",
+	cfgAfter };
+	cfgAfter HomeMainlandNames =
+	cfgAfter {
+	cfgAfter 	"162", 	"Demo",	"dem",
+	cfgAfter };
+
+	// addition of extra filters for this domain
+	//cfgAfter NegFiltersDebug+= {"DEFAULT_CB", "NET","ADMIN","MIRROR","CDB_MULTI_IMPULSION"};
+	//cfgAfter NegFiltersInfo+= {"NET", "FETIME","TimerManagerUpdate"};
+	//cfgAfter NegFiltersWarning+= {"AES"};
+	cfgAfter DomainName = "ryzom_demo";
+
+	// hook for local overrides (per machine)
+	cfgAfter #optional "../local.cfg"
+
+	// ******************************************************
+	// big nasty temp hack by vianney for marketting demo
+//	cfg MaxNpcs=200;
+//	cfg MaxStaticObjects=200;
+	// ******************************************************
+	// big nasty temp hack by vianney for backward scenario compatibility
+	cfgAfter AcceptScenarioWithoutHeader=1;
+	cfgAfter DefaultCharRingAccess=":f9:j9:l9:d9:p9:g9:a9:o9:";
+	cfgAfter MaxStaticObjects=200;
+	cfgAfter MaxStaticObjects=200;
+	cfgAfter MaxNpcs=200;
+	// ******************************************************
+
+
+// shard unifier -------------------
+
+define shard_demo_unifier
+	shard unifier
+	use shard_exe_set_demo_ras
+	use shard_exe_set_demo_unifier
+	use shard_exe_set_demo_backup
+
+define shard_exe_set_demo_ras
+	use ras
+	host rsfe126.juk.shards.nvx
+
+define shard_exe_set_demo_unifier
+	use exe_set_std_unifier
+	host rsring09.juk.shards.nvx
+	cfg DBPass="nevrax";
+
+define shard_exe_set_demo_backup
+	use exe_set_std_backup_master
+	host rsring09.juk.shards.nvx
+
+
+// shard ring ----------------------
+
+define shard_demo_ring
+	shard ring
+	use exe_set_mini_ring
+	host rsring09.juk.shards.nvx
+	cfg ShardId = 152;
+	cfg SaveFilesDirectory="demo_ring";
+	cfg #include "../live/cfg/02_shard_type_mini_ring.cfg"
+	cfg FSListenHost = "rsring09.juk.shards.nevrax.com";
+
+
+// shard mainland ------------------
+
+define shard_demo_mainland
+	shard mainland
+	use exe_set_mini_mainland
+	host rsfe107.juk.shards.nvx
+//	host rsring08.juk.shards.nvx
+	cfg ShardId = 162;
+	cfg SaveFilesDirectory="demo_mainland/";
+	cfg #include "../live/cfg/02_shard_type_mini_mainland.cfg"
+	cfg FSListenHost = "rsfe107.juk.shards.nevrax.com";
+//	cfg FSListenHost = "rsring08.juk.shards.nevrax.com";
+

@@ -1,0 +1,214 @@
+//-----------------------------------------------------------------------------
+// ATS Domain
+//-----------------------------------------------------------------------------
+
+// the domain ----------------------
+
+define domain_ats
+	domain ats
+	use shard_ats_unifier
+	use shard_ats_ani
+	use shard_ats_lea
+	use shard_ats_ari
+	use shard_ats_csr
+	use shard_ats_rra
+	use shard_ats_rrb
+	
+	// domain ports
+	cfg ASWebPort="46710";
+	cfg ASPort="46711";
+	cfg AESPort="46712";
+	cfg SUPort = 50505;
+	cfg SUGlobalPort = 50503;
+	cfg L3BSPort = "49950";
+	cfg L3SlaveBSPort = "49951";
+	cfg L3MasterLGSPort = 49992;
+	cfg L3SlaveLGSPort = 49993;
+	cfg LGSBSPort = 49994;
+	cfg L3LGSBSPort = 49995;
+
+	// domain hosts
+	cfg SUHost = "ep1.rzt01.gffr";
+	cfg MFSHost = "ep1.rzt01.gffr";
+	cfg BSHost = "ep1.rzt01.gffr:49990";
+	cfg PDBSHost= "ep1.rzt01.gffr:49992";
+	cfg MasterLGSHost = "ep1.rzt01.gffr";
+	cfg SlaveLGSHost = "ep1.rzt01.gffr";
+	cfg LGSBSHost = "ep1.rzt01.gffr";
+	cfg DBHost = "db1.rzl01.gffr";
+	cfgAfter WebSrvHost = "http://ep1.rzt01.gameforge.fr:50000/";
+
+	// initial config files
+	cfgFile ../cfg/00_base.cfg
+	cfgFile ../cfg/01_domain_ats.cfg
+
+	// shard names and ids
+	cfgAfter Mainlands = {
+	cfgAfter 	"101", "ATS1", "Advanced Test Server 1", "fr",
+	cfgAfter 	"102", "ATS2", "Advanced Test Server 2", "de",
+//	cfgAfter 	"103", "ATS3", "Advanced Test Server 3", "en",
+	cfgAfter };
+	cfgAfter HomeMainlandNames =
+	cfgAfter {
+	cfgAfter 	"101", 	"ATS1",	"ats1",
+	cfgAfter 	"102", 	"ATS2",	"ats2",
+	cfgAfter 	"103", 	"ATS3",	"ats3",
+	cfgAfter 	"999", 	"CSR",	"csr",
+	cfgAfter };
+
+	// addition of extra filters for this domain
+	//cfgAfter NegFiltersDebug+= {"DEFAULT_CB", "NET","ADMIN","MIRROR","CDB_MULTI_IMPULSION"};
+	//cfgAfter NegFiltersInfo+= {"NET", "FETIME","TimerManagerUpdate"};
+	//cfgAfter NegFiltersWarning+= {"AES"};
+	cfgAfter DefaultCharRingAccess="a1";
+//	cfgAfter RingAccessLimits="d3:j2:f2:l2:p2";
+	cfgAfter DomainName = "ryzom_test";
+
+	// hook for local overrides (per machine)
+	cfgAfter #optional "../local.cfg"
+
+
+// shard unifier -------------------
+
+define shard_ats_unifier
+	shard unifier
+	cfg ShardId = 100;
+	data data_www
+	use ras
+	use exe_set_std_unifier
+	use bms_master
+	use exe_set_std_lgs_master
+	use exe_set_std_lgs_slave
+	use backup_lgs
+	cfg DBPass="nevrax";
+	host ep1.rzt01.gffr
+
+
+// shard aniro ---------------------
+
+define shard_ats_ani
+	shard aniro
+	use shard_exe_set_ats_mainland01_be01
+	use shard_exe_set_ats_mainland01_be02
+	use shard_exe_set_ats_mainland01_be03
+	use shard_exe_set_ats_mainland01_fe01
+	cfg ShardId = 101;
+	cfg BasePort = 52000;
+	cfg SaveFilesDirectory="ats_aniro/";
+	cfg NSHost = "ani1.rzt01.gffr";
+	cfgFile ../cfg/02_shard_type_std_mainland.cfg
+	// Activate logging of time consuming AStar searches
+	cfg LogTimeConsumingAStar = 1;
+
+define shard_exe_set_ats_mainland01_be01
+	use exe_set_std_mainland_be01
+	host ani1.rzt01.gffr
+
+define shard_exe_set_ats_mainland01_be02
+	use exe_set_std_mainland_be02
+	host ani2.rzt01.gffr
+
+define shard_exe_set_ats_mainland01_be03
+	use exe_set_std_mainland_be03
+	host ani3.rzt01.gffr
+
+define shard_exe_set_ats_mainland01_fe01
+	use exe_set_std_mainland_fe
+	host ani4.rzt01.gffr
+	cfg FSListenHost = "ani4.rzt01.gameforge.fr";
+	cfgAfter AcceptInvalidCookie = 1;
+
+
+// shard leanon --------------------
+
+define shard_ats_lea
+	shard leanon
+//	use exe_set_mini_mainland
+	use shard_exe_set_ats_mainland02_01
+	use shard_exe_set_ats_mainland02_02
+	cfg ShardId = 102;
+	cfg BasePort = 52100;
+	cfg SaveFilesDirectory="ats_leanon/";
+	cfg NSHost = "lea1.rzt01.gffr";
+	cfg FSListenHost = "lea1.rzt01.gameforge.fr";
+	cfgFile ../cfg/02_shard_type_std_mainland.cfg
+	// Dissable generation / display of nldebug messages
+	cfg DissableNLDebug = 1;
+
+define shard_exe_set_ats_mainland02_01
+	use exe_set_small_mainland_01
+	host lea1.rzt01.gffr
+	cfg FSListenHost = "lea1.rzt01.gameforge.fr";
+
+define shard_exe_set_ats_mainland02_02
+	use exe_set_small_mainland_02
+	host rra1.rzt01.gffr
+	cfg FSListenHost = "rra1.rzt01.gameforge.fr";
+
+
+// shard arispotle -----------------
+
+define shard_ats_ari
+	shard arispotle
+//	use exe_set_mini_mainland
+	use shard_exe_set_ats_mainland03_01
+	use shard_exe_set_ats_mainland03_02
+	cfg ShardId = 103;
+	cfg BasePort = 52200;
+	cfg SaveFilesDirectory="ats_arispotle/";
+	cfg NSHost = "ari1.rzt01.gffr";
+	cfgFile ../cfg/02_shard_type_std_mainland.cfg
+	// Dissable generation / display of nldebug messages
+	cfg DissableNLDebug = 1;
+
+define shard_exe_set_ats_mainland03_01
+	use exe_set_split_mainland_01
+	host ari1.rzt01.gffr
+	cfg FSListenHost = "ari1.rzt01.gameforge.fr";
+
+define shard_exe_set_ats_mainland03_02
+	use exe_set_split_mainland_02
+	host rrb1.rzt01.gffr
+	cfg FSListenHost = "rrb1.rzt01.gameforge.fr";
+
+
+// shard csr -----------------------
+
+define shard_ats_csr
+	shard csr
+	use exe_set_mini_mainland
+	cfg ShardId = 999;
+	cfg BasePort = 52300;
+	cfg SaveFilesDirectory="ats_csr/";
+	cfg FSListenHost = "ep1.rzt01.gameforge.fr";
+	cfgFile ../cfg/02_shard_type_mini_mainland.cfg
+	host ep1.rzt01.gffr
+	cfgAfter NSPort = 50001;
+	cfgAfter NSHost = "ep1.rzt01.gffr:50001";
+
+
+// shard ring01 --------------------
+
+define shard_ats_rra
+	shard ring01
+	use exe_set_mini_ring
+	cfg ShardId = 201;
+	cfg BasePort = 52400;
+	cfg SaveFilesDirectory="ats_ring01/";
+	cfg FSListenHost = "rra1.rzt01.gameforge.fr";
+	cfgFile ../cfg/02_shard_type_mini_ring.cfg
+	host rra1.rzt01.gffr
+
+
+// shard ring02 --------------------
+
+define shard_ats_rrb
+	shard ring02
+	use exe_set_mini_ring
+	cfg ShardId = 202;
+	cfg BasePort = 52500;
+	cfg SaveFilesDirectory="ats_ring02/";
+	cfg FSListenHost = "rrb1.rzt01.gameforge.fr";
+	cfgFile ../cfg/02_shard_type_mini_ring.cfg
+	host rrb1.rzt01.gffr
+

@@ -1,0 +1,115 @@
+//-----------------------------------------------------------------------------
+// rt Domain
+//-----------------------------------------------------------------------------
+
+// the domain ----------------------
+
+define domain_rt
+	domain rt
+	use shard_rt_unifier
+	use shard_rt_ring01
+	use shard_rt_mainland01
+
+	// domain name
+	cfg DomainName = "rt";
+	// domain ports
+	cfg ASWebPort = "46800";
+	cfg ASPort = "46801";
+	cfg AESPort = "46802";
+	cfg SUPort = 50505;
+	cfg SUGlobalPort = 50503;
+	cfg L3BSPort = "49950";
+	cfg L3SlaveBSPort = "49951";
+
+	// domain hosts
+	cfg SUHost = "r2linux04";
+	cfg BSHost = "r2linux04";
+	cfg DBHost = "r2linux03";
+
+	// NFS mapping for files loaded via NFS
+	cfg SaveShardRoot="/home/nevrax/rt/save_shard";
+
+	// initial config files
+	cfgFile ../cfg/00_base.cfg
+	cfgFile ../cfg/01_domain_daily.cfg
+	cfgAfter DBRingName = "ring_rt";
+
+
+	// shard names and ids
+	cfgAfter Mainlands = {
+	cfgAfter 	"245", "rt", "(EN)", "en",
+	cfgAfter };
+	cfgAfter HomeMainlandNames =
+	cfgAfter {
+	cfgAfter 	"245", "rt", "rt",
+	cfgAfter };
+
+	// addition of extra filters for this domain
+	//cfgAfter NegFiltersDebug+= {"DEFAULT_CB", "NET","ADMIN","MIRROR"};
+	//cfgAfter NegFiltersInfo+= {"NET"};
+	//cfgAfter NegFiltersWarning+= {"AES"};
+	cfgAfter DefaultCharRingAccess="a1";
+
+	// hook for local overrides (per machine)
+	cfgAfter #optional "../local.cfg"
+
+
+// shard unifier -------------------
+
+define shard_rt_unifier
+	shard unifier
+	use shard_exe_set_rt_ras
+	use shard_exe_set_rt_unifier
+	use shard_exe_set_rt_backup
+
+define shard_exe_set_rt_ras
+	use ras
+	host r2linux03.nevrax.net
+
+define shard_exe_set_rt_unifier
+	use exe_set_mini_unifier
+	host r2linux04.nevrax.net
+
+define shard_exe_set_rt_backup
+	use exe_set_std_backup_master
+	host r2linux04.nevrax.net
+	// override for SaveShardRoot - which is local and not accessed via NFS
+	cfg SaveShardRoot="/home/nevrax/rt/save_shard/";
+
+
+// shard ring01 --------------------
+
+define shard_rt_ring01
+	shard ring01
+	use shard_exe_set_rt_ring01
+	cfg ShardId = 244;
+	cfg SaveFilesDirectory="ring01";
+	cfg #include "../live/cfg/02_shard_type_mini_ring.cfg"
+	cfgFile ../cfg/02_shard_type_mini_ring.cfg
+
+define shard_exe_set_rt_ring01
+	use exe_set_mini_ring
+	host dailyserver.nevrax.net
+	cfg FSListenHost = "dailyserver";
+
+
+// shard mainland01 ----------------
+
+define shard_rt_mainland01
+	shard mainland01
+	use shard_exe_set_rt_mainland01
+	cfg ShardId = 245;
+	cfg NSPort = 51100;
+	cfgAfter NSHost = "r2linux04:"+NSPort;
+	cfg BasePort = 51101;
+	cfg SaveFilesDirectory="mainland01";
+//	cfg #include "../live/cfg/02_shard_type_mini_mainland.cfg"
+	cfgFile ../cfg/02_shard_type_mini_mainland.cfg
+
+
+define shard_exe_set_rt_mainland01
+	use exe_set_mini_mainland
+	host r2linux04.nevrax.net
+	cfg FSListenHost = "r2linux04";
+
+

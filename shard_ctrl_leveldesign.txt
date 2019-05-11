@@ -1,0 +1,299 @@
+//-----------------------------------------------------------------------------
+// leveldesign Domains
+//-----------------------------------------------------------------------------
+
+// shard linuxshard0 ---------------
+
+define domain_linuxshard0
+	domain linuxshard0
+	use shard_ls0_unifier
+	use shard_ls0
+	use admin_ls0
+	cfg DomainName = "linuxshard0";
+	cfg ASWebPort="46790";
+	cfg ASPort="46791";
+	cfg AESPort="46792";
+	cfg AESHost="localhost";
+	cfg L3BSPort = "49950";
+	cfg L3SlaveBSPort = "49951";
+	cfg #define DONT_USE_LGS_SLAVE
+	cfgAfter Mainlands = {
+	cfgAfter 	"100", "zero (Linuxshard 0)", "(FR)", "fr",
+	cfgAfter };
+	cfgAfter HomeMainlandNames =
+	cfgAfter {
+	cfgAfter 	"100", "zero", "zer",
+	cfgAfter };
+	cfgAfter ReadTranslationWork = 1;
+	cfgAfter DontUseStdIn=0;
+
+define admin_ls0
+	use ras
+	shard unifier
+	host r2linux03.nevrax.net
+
+define shard_ls0
+	shard linuxshard0
+	use exe_set_leveldesign
+	host linuxshard0.nevrax.net
+	cfg FSListenHost = "linuxshard0";
+	cfg ShardId = 100;
+	cfg SaveFilesDirectory="linuxshard0";
+
+// Linuxshard 0 Unifier
+define shard_ls0_unifier
+	shard unifier
+	use exe_set_leveldesign_unifier
+	host linuxshard0.nevrax.net
+	cfg ShardId = 100;
+	cfg SaveFilesDirectory="linuxshard0";
+
+
+// shard linuxshard7 ---------------
+
+define domain_linuxshard7
+	domain linuxshard7
+	use shard_ls7_unifier
+	use shard_ls7
+	use admin_ls7
+	cfg DomainName = "linuxshard7";
+	cfg ASWebPort="46770";
+	cfg ASPort="46771";
+	cfg AESPort="46772";
+	cfg AESHost="localhost";
+	cfg L3BSPort = "49950";
+	cfg L3SlaveBSPort = "49951";
+	cfgAfter Mainlands = {
+	cfgAfter 	"107", "Gregory (Linuxshard 7)", "(FR)", "fr",
+	cfgAfter };
+	cfgAfter HomeMainlandNames =
+	cfgAfter {
+	cfgAfter 	"107", "Gregory", "gre",
+	cfgAfter };
+	cfgAfter ReadTranslationWork = 1;
+	cfgAfter DontUseStdIn=0;
+
+define admin_ls7
+	use ras
+	shard unifier
+	host r2linux03.nevrax.net
+
+define shard_ls7
+	shard linuxshard7
+	use exe_set_leveldesign_full_ai
+	host linuxshard7.nevrax.net
+	cfg FSListenHost = "linuxshard7";
+	cfg ShardId = 107;
+	cfg SaveFilesDirectory="linuxshard7";
+
+// Linuxshard7 Unifier
+define shard_ls7_unifier
+	shard unifier
+	use exe_set_leveldesign_unifier
+	host linuxshard7.nevrax.net
+	cfg ShardId = 107;
+	cfg SaveFilesDirectory="linuxshard7";
+
+// shard linuxshard4 ---------------
+
+define domain_linuxshard4
+	domain linuxshard4
+	use shard_ls4_unifier
+	use shard_ls4
+	use admin_ls4
+	cfg DomainName = "linuxshard4";
+	cfg ASWebPort="46750";
+	cfg ASPort="46751";
+	cfg AESPort="46752";
+	cfg AESHost="localhost";
+	cfg L3BSPort = "49950";
+	cfg L3SlaveBSPort = "49951";
+	cfgAfter Mainlands = {
+	cfgAfter 	"104", "Herbert (Linuxshard 4)", "(FR)", "fr",
+	cfgAfter };
+	cfgAfter HomeMainlandNames =
+	cfgAfter {
+	cfgAfter 	"104", "Herbert", "her",
+	cfgAfter };
+	cfgAfter ReadTranslationWork = 1;
+	cfgAfter DontUseStdIn=0;
+
+define admin_ls4
+	use ras
+	shard unifier
+	host r2linux03.nevrax.net
+
+define shard_ls4
+	shard linuxshard4
+	use exe_set_leveldesign
+	host linuxshard4.nevrax.net
+	cfg FSListenHost = "linuxshard4";
+	cfg ShardId = 104;
+	cfg SaveFilesDirectory="linuxshard4";
+
+// linushard4 Unifier
+define shard_ls4_unifier
+	shard unifier
+	use exe_set_leveldesign_unifier
+	host linuxshard4.nevrax.net
+	cfg ShardId = 104;
+	cfg SaveFilesDirectory="linuxshard4";
+
+
+// shard linuxshard8 ---------------
+
+define domain_linuxshard8
+	domain linuxshard8
+	use shard_ls8_unifier
+	use shard_ls8
+	use admin_ls8
+	cfg DomainName = "linuxshard8";
+	cfg ASWebPort="46780";
+	cfg ASPort="46781";
+	cfg AESPort="46782";
+	cfg AESHost="localhost";
+	cfg L3BSPort = "49950";
+	cfg L3SlaveBSPort = "49951";
+	cfgAfter Mainlands = {
+	cfgAfter 	"108", "Herbert (Linuxshard 8)", "(FR)", "fr",
+	cfgAfter };
+	cfgAfter HomeMainlandNames =
+	cfgAfter {
+	cfgAfter 	"108", "Herbert", "her",
+	cfgAfter };
+	cfgAfter ReadTranslationWork = 1;
+	cfgAfter DontUseStdIn=0;
+
+define admin_ls8
+	use ras
+	shard unifier
+	host r2linux03.nevrax.net
+
+define shard_ls8
+	shard linuxshard8
+	use exe_set_leveldesign
+	host linuxshard8.nevrax.net
+	cfg FSListenHost = "linuxshard8";
+	cfg ShardId = 108;
+	cfg SaveFilesDirectory="linuxshard8";
+
+// linushard8 Unifier
+define shard_ls8_unifier
+	shard unifier
+	use exe_set_leveldesign_unifier
+	host linuxshard8.nevrax.net
+	cfg ShardId = 108;
+	cfg SaveFilesDirectory="linuxshard8";
+
+
+// common stuff --------------------
+
+define exe_set_leveldesign
+	use ms_mini_mainland
+	use ais_leveldesign
+
+	use egs_mainland
+	use gpms_mainland
+	use ios_mainland
+	use rns_mainland
+	use fes_solo
+	use ts_std
+	use rws_std
+	use mos
+	cfg NSHost="localhost";
+	cfg BSHost="localhost";
+	cfg MFSHost="";
+	cfg ConvertSaveFilesDirectoryToFullPath=0;
+	cfg SaveShardRoot="../save_shard";
+	cfg NegFiltersDebug= {"LNET"};
+	cfg NegFiltersInfo= {"LNET"};
+	cfg NegFiltersWarning= {"AES"};
+	cfgFile ../cfg/00_base.cfg
+	cfgFile ../cfg/01_domain_leveldesign.cfg
+	cfgFile ../cfg/02_shard_type_leveldesign.cfg
+	cfgAfter NegFiltersDebug+= {"DEFAULT_CB", "LNET"};
+	cfgAfter NegFiltersInfo+= {"LNET"};
+	cfgAfter NegFiltersWarning+= {"AES"};
+	cfgAfter #optional "../local.cfg"
+	cfgAfter MaxXPGainPerPlayer = 30.0;
+
+define exe_set_leveldesign_full_ai
+	use ms_mini_mainland
+	use ais_fyros
+	use ais_zorai
+	use ais_roots
+	use ais_matis
+	use ais_tryker
+	use ais_newbyland
+
+	use egs_mainland
+	use gpms_mainland
+	use ios_mainland
+	use rns_mainland
+	use fes_solo
+	use ts_std
+	use rws_std
+	use mos
+	cfg NSHost="localhost";
+	cfg BSHost="localhost";
+	cfg MFSHost="";
+	cfg ConvertSaveFilesDirectoryToFullPath=0;
+	cfg SaveShardRoot="../save_shard";
+	//cfg NegFiltersDebug= {"LNET"};
+	//cfg NegFiltersInfo= {"LNET"};
+	//cfg NegFiltersWarning= {"AES"};
+	cfgFile ../cfg/00_base.cfg
+	cfgFile ../cfg/01_domain_leveldesign.cfg
+	cfgFile ../cfg/02_shard_type_leveldesign.cfg
+	//cfgAfter NegFiltersDebug+= {"DEFAULT_CB", "LNET"};
+	//cfgAfter NegFiltersInfo+= {"LNET"};
+	//cfgAfter NegFiltersWarning+= {"AES"};
+	cfgAfter #optional "../local.cfg"
+	cfgAfter MaxXPGainPerPlayer = 30.0;
+
+define exe_set_leveldesign_unifier
+	use bms_master
+	use su_mini
+	use raes
+	cfg NSHost="localhost";
+	cfg BSHost="localhost";
+	cfg MFSHost="";
+	cfg ConvertSaveFilesDirectoryToFullPath=0;
+	cfg SaveShardRoot="../save_shard";
+	//cfg NegFiltersDebug= {"LNET"};
+	//cfg NegFiltersInfo= {"LNET"};
+	//cfg NegFiltersWarning= {"AES"};
+	cfgFile ../cfg/00_base.cfg
+	cfgFile ../cfg/01_domain_leveldesign.cfg
+	cfgFile ../cfg/02_shard_type_leveldesign.cfg
+	//cfgAfter NegFiltersDebug+= {"DEFAULT_CB", "LNET"};
+	//cfgAfter NegFiltersInfo+= {"LNET"};
+	//cfgAfter NegFiltersWarning+= {"AES"};
+	cfgAfter #optional "../local.cfg"
+	cfgAfter MaxXPGainPerPlayer = 30.0;
+
+define ais_leveldesign
+	name ais
+	cmdLine ai_service -C. -L. -mLeveldesign
+	use ais
+	data data_mainland_common_primitives
+	data data_fyros_primitives
+	data data_matis_primitives
+	data data_tryker_primitives
+	data data_zorai_primitives
+	data data_roots_primitives
+	data data_newbieland_primitives
+	data data_fyros
+	data data_matis
+	data data_tryker
+	data data_zorai
+	data data_roots
+	data data_newbieland
+	data data_indoors
+
+//define dummy_for_spm
+//	shard dummy_for_spm
+//	cmdLine none
+//	host linuxshard7.nevrax.net
+//	cfg
+

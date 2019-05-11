@@ -1,0 +1,119 @@
+//-----------------------------------------------------------------------------
+// head Domain
+//-----------------------------------------------------------------------------
+
+// the domain ----------------------
+
+define domain_head
+	domain head
+	use shard_head_unifier
+	use shard_head_ring01
+	use shard_head_mainland01
+
+	// domain name
+	cfg DomainName = "head";
+	// domain ports
+	cfg ASWebPort = "46720";
+	cfg ASPort = "46721";
+	cfg AESPort = "46722";
+	cfg SUPort = 50505;
+	cfg SUGlobalPort = 50503;
+	cfg BSPort = 49994;
+	cfg L3BSPort = "49954";
+	cfg L3SlaveBSPort = "49955";
+	cfg NSPort = 51200;
+	cfg BasePort = 51201;
+
+	// domain hosts
+	cfg SUHost = "dailyserver";
+	cfg BSHost = "linuxshard4:" + BSPort;
+	cfg DBHost = "r2linux03";
+
+	// NFS mapping for files loaded via NFS
+	cfg SaveShardRoot="/home/nevrax/head/save_shard";
+
+	// Dissable the second LGS service because we only launch one in this domain
+	cfg #define DONT_USE_LGS_SLAVE
+
+	// initial config files
+	cfgFile ../cfg/00_base.cfg
+	cfgFile ../cfg/01_domain_head.cfg
+
+	cfgAfter NSHost = "localhost:" + NSPort;
+
+	// shard names and ids
+	cfgAfter Mainlands = {
+	cfgAfter 	"245", "head", "(EN)", "en",
+	cfgAfter };
+	cfgAfter HomeMainlandNames =
+	cfgAfter {
+	cfgAfter 	"245", "head", "hea",
+	cfgAfter };
+
+	// addition of extra filters for this domain
+	//cfgAfter NegFiltersDebug+= {"DEFAULT_CB", "NET","ADMIN","MIRROR"};
+	//cfgAfter NegFiltersInfo+= {"NET"};
+	//cfgAfter NegFiltersWarning+= {"AES"};
+	cfgAfter DefaultCharRingAccess="a1";
+
+	// hook for local overrides (per machine)
+	cfgAfter #optional "../local.cfg"
+
+
+// shard unifier -------------------
+
+define shard_head_unifier
+	shard unifier
+	use shard_exe_set_head_ras
+	use shard_exe_set_head_unifier
+	use shard_exe_set_head_backup
+
+define shard_exe_set_head_ras
+	use ras
+	host r2linux03.nevrax.net
+
+define shard_exe_set_head_unifier
+	use exe_set_mini_unifier
+	host dailyserver.nevrax.net
+
+define shard_exe_set_head_backup
+	use exe_set_std_backup_master2
+	host linuxshard4.nevrax.net
+	// override for SaveShardRoot - which is local and not accessed via NFS
+	cfg SaveShardRoot="/home/nevrax/head/save_shard/";
+	cfgAfter WebPort = 49974;
+
+
+// shard ring01 --------------------
+
+define shard_head_ring01
+	shard ring01
+	use shard_exe_set_head_ring01
+	cfg ShardId = 244;
+	cfg SaveFilesDirectory="ring01";
+	cfg #include "../live/cfg/02_shard_type_mini_ring.cfg"
+	cfgFile ../cfg/02_shard_type_mini_ring.cfg
+
+define shard_exe_set_head_ring01
+	use exe_set_mini_ring
+	host dailyserver.nevrax.net
+	cfg FSListenHost = "dailyserver";
+
+
+// shard mainland01 ----------------
+
+define shard_head_mainland01
+	shard mainland01
+	use shard_exe_set_head_mainland01
+	cfg ShardId = 245;
+	cfg SaveFilesDirectory="mainland01";
+//	cfg #include "../live/cfg/02_shard_type_mini_mainland.cfg"
+	cfgFile ../cfg/02_shard_type_head_mainland.cfg
+
+
+define shard_exe_set_head_mainland01
+	use exe_set_mini_mainland
+	host linuxshard4.nevrax.net
+	cfg FSListenHost = "linuxshard4";
+
+
