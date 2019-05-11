@@ -32,7 +32,7 @@ define exe_set_mini_mainland
 	use ais_roots
 	use ais_matis
 	use ais_tryker
-	use ais_newbyland
+	use ais_newbieland
 	use egs_mainland
 	use gpms_mainland
 	use ios_mainland
@@ -186,7 +186,7 @@ define exe_set_std_mainland_be03
 define exe_set_std_mainland_be03_basics
 	use ais_matis
 	use ais_tryker
-	use ais_newbyland
+	use ais_newbieland
 
 // unifier and co ------------------
 
@@ -349,8 +349,8 @@ define ais_roots
 	data data_roots
 	data data_indoors
 
-define ais_newbyland
-	name ais_newbyland
+define ais_newbieland
+	name ais_newbieland
 	cmdLine ai_service -C. -L. --nobreak --writepid -mCommon:Newbieland:Post
 	use ais
 	data data_mainland_common_primitives
@@ -378,7 +378,7 @@ define bms_master
 	cfgAfter L3ListeningPort = 49950;
 	cfgAfter WebPort = 49970;
 	cfgAfter BSReadState = 1;
-	cfgAfter SaveShardRoot = "../save_shard";
+	cfgAfter SaveShardRoot = "../save_shard/";
 
 define bms_master2
 	use bms
@@ -388,7 +388,7 @@ define bms_master2
 	cfgAfter L3ListeningPort = 49954;
 	cfgAfter WebPort = 49974;
 	cfgAfter BSReadState = 1;
-	cfgAfter SaveShardRoot = "../save_shard";
+	cfgAfter SaveShardRoot = "../save_shard/";
 
 define bms_slave
 	use bms
@@ -398,7 +398,7 @@ define bms_slave
 	cfgAfter L3ListeningPort = 49951;
 	cfgAfter WebPort = 49971;
 	cfgAfter BSReadState = 0;
-	cfgAfter SaveShardRoot = "../save_shard";
+	cfgAfter SaveShardRoot = "../save_shard/";
 
 define bms_pd_master
 	use bms
@@ -408,7 +408,7 @@ define bms_pd_master
 	cfgAfter L3ListeningPort = 49952;
 	cfgAfter WebPort = 49972;
 	cfgAfter BSReadState = 1;
-	cfgAfter SaveShardRoot = "../save_shard_pd";
+	cfgAfter SaveShardRoot = "../save_shard_pd/";
 
 define bms_pd_slave
 	use bms
@@ -418,7 +418,7 @@ define bms_pd_slave
 	cfgAfter L3ListeningPort = 49953;
 	cfgAfter WebPort = 49973;
 	cfgAfter BSReadState = 0;
-	cfgAfter SaveShardRoot = "../save_shard_pd";
+	cfgAfter SaveShardRoot = "../save_shard_pd/";
 
 define backup_lgs
 	use bms
@@ -428,7 +428,7 @@ define backup_lgs
 	cfgAfter L3ListeningPort = 49995;
 	cfgAfter WebPort = 49972;
 	cfgAfter BSReadState = 1;
-	cfgAfter SaveShardRoot = "../save_shard_lgs";
+	cfgAfter SaveShardRoot = "../save_shard_lgs/";
 	cfgAfter UseTempFile = 0;
 
 // lgs -----------------------------
@@ -440,7 +440,7 @@ define lgs
 	cfg #include "../live/cfg/logger_service.cfg"
 
     	cfg LogQueryResultFile = "log_query_result.txt";
-	cfg SaveFilesDirectory = "save_shard";
+	cfg SaveFilesDirectory = "save_shard/";
 	cfg BSHost = LGSBSHost+":"+LGSBSPort;
 	cfg L3BSPort = LGSBSPort;
 	cfg DontUseNS = 1;
@@ -454,8 +454,8 @@ define lgs
     	cfgAfter	"lgs_gw.transportOptions l3s(PeerInvisible)",
 	cfgAfter	"lgs_gw.transportCmd l3s(open port="+ LGSL3Port +")",
 	cfgAfter };
-	cfgAfter SaveShardRoot = "../save_shard_lgs";
-	cfgAfter SaveFilesDirectory = "../save_shard_lgs";
+	cfgAfter SaveShardRoot = "../save_shard_lgs/";
+	cfgAfter SaveFilesDirectory = "../save_shard_lgs/";
     
 define lgs_master
 	use lgs
