@@ -374,36 +374,40 @@ define bms_master
 	use bms
 	cmdLine backup_service -C. -L. --nobreak --writepid -P49990
 	//cfg #include "../live/cfg/backup_module_service_master.cfg"
+	cfg #include "../live/service_backup_service/backup_service.cfg"
 	cfgAfter ListeningPort = 49990;
 	cfgAfter L3ListeningPort = 49950;
 	cfgAfter WebPort = 49970;
 	cfgAfter BSReadState = 1;
-	cfgAfter SaveShardRoot = "../save_shard/";
+	cfgAfter SaveShardRoot = "../save_shard_bs/";
 
 define bms_master2
 	use bms
 	cmdLine backup_service -C. -L. --nobreak --writepid -P49994
 	//cfg #include "../live/cfg/backup_module_service_master.cfg"
+	cfg #include "../live/service_backup_service/backup_service.cfg"
 	cfgAfter ListeningPort = 49994;
 	cfgAfter L3ListeningPort = 49954;
 	cfgAfter WebPort = 49974;
 	cfgAfter BSReadState = 1;
-	cfgAfter SaveShardRoot = "../save_shard/";
+	cfgAfter SaveShardRoot = "../save_shard_bs/";
 
 define bms_slave
 	use bms
 	cmdLine backup_service -C. -L. --nobreak --writepid -P49991
-	cfg #include "../live/cfg/backup_module_service_slave.cfg"
+	//cfg #include "../live/cfg/backup_module_service_slave.cfg"
+	cfg #include "../live/service_backup_service/backup_service.cfg"
 	cfgAfter ListeningPort = 49991;
 	cfgAfter L3ListeningPort = 49951;
 	cfgAfter WebPort = 49971;
 	cfgAfter BSReadState = 0;
-	cfgAfter SaveShardRoot = "../save_shard/";
+	cfgAfter SaveShardRoot = "../save_shard_bs/";
 
 define bms_pd_master
 	use bms
 	cmdLine backup_service -C. -L. --nobreak --writepid -P49992
 	//cfg #include "../live/cfg/backup_module_service_master.cfg"
+	cfg #include "../live/service_backup_service/backup_service.cfg"
 	cfgAfter ListeningPort = 49992;
 	cfgAfter L3ListeningPort = 49952;
 	cfgAfter WebPort = 49972;
@@ -413,7 +417,8 @@ define bms_pd_master
 define bms_pd_slave
 	use bms
 	cmdLine backup_service -C. -L. --nobreak --writepid -P49993
-	cfg #include "../live/cfg/backup_module_service_slave.cfg"
+	//cfg #include "../live/cfg/backup_module_service_slave.cfg"
+	cfg #include "../live/service_backup_service/backup_service.cfg"
 	cfgAfter ListeningPort = 49993;
 	cfgAfter L3ListeningPort = 49953;
 	cfgAfter WebPort = 49973;
@@ -424,6 +429,7 @@ define backup_lgs
 	use bms
 	cmdLine backup_service -C. -L. --nobreak --writepid -P49994
 	//cfg #include "../live/cfg/backup_module_service_master.cfg"
+	cfg #include "../live/service_backup_service/backup_service.cfg"
 	cfgAfter ListeningPort = 49994;
 	cfgAfter L3ListeningPort = 49995;
 	cfgAfter WebPort = 49972;
@@ -481,7 +487,7 @@ define dss
 
 define dss_ring
 	use dss
-	cfg #include "../live/cfg/dynamic_scenario_service_ring.cfg"
+	// cfg #include "../live/cfg/dynamic_scenario_service_ring.cfg"
 
 
 // egs -----------------------------
@@ -808,7 +814,7 @@ define ios_mainland
 
 define ios_ring
 	use ios
-	cfg #include "../live/cfg/input_output_service_ring.cfg"
+	//cfg #include "../live/cfg/input_output_service_ring.cfg"
 
 
 // las -----------------------------
