@@ -1,6 +1,6 @@
 #! /bin/sh -
 
-# note: this script should be run from a domain directory such as /srv/core/std01 or /srv/core/mini01
+# note: this script should be run from a domain directory such as /home/nevrax/std01 or /home/nevrax/mini01
 DOMAIN=$(pwd |sed 's/\/srv\/core\///')
 if [ "patchman" = "$DOMAIN" ]; then DOMAIN= ; fi
 if [ "bin" = "$DOMAIN" ]; then DOMAIN= ; fi
@@ -97,14 +97,14 @@ done
 printf "1" > ./global.launch_ctrl
 
 # create a script for accessing the screen for this shard
-SCRIPT_FILE=/srv/core/bin/domain_${DOMAIN}
+SCRIPT_FILE=/home/nevrax/bin/domain_${DOMAIN}
 echo "#!/bin/sh" > $SCRIPT_FILE
 echo "cd "$(pwd) >> $SCRIPT_FILE
-echo '/bin/sh /srv/core/bin/ryzom_domain_screen_wrapper.sh $*' >> $SCRIPT_FILE
+echo '/bin/sh /home/nevrax/bin/ryzom_domain_screen_wrapper.sh $*' >> $SCRIPT_FILE
 chmod +x $SCRIPT_FILE
 
 # launch the screen again now that were all done (aes will launch everybody when he comes online)
-cp /srv/core/$DOMAIN/${DOMAIN}.screen.rc /srv/core/${DOMAIN}.screen.rc
-#screen -S $DOMAIN -d -m -c /srv/core/${DOMAIN}.screen.rc
+cp /home/nevrax/$DOMAIN/${DOMAIN}.screen.rc /home/nevrax/${DOMAIN}.screen.rc
+#screen -S $DOMAIN -d -m -c /home/nevrax/${DOMAIN}.screen.rc
 $SCRIPT_FILE batchstart
 

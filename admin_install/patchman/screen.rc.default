@@ -12,5 +12,5 @@ bind K kill
 bind I login on
 bind O login off
 
-screen -t aes /bin/sh /srv/core/patchman/loop_aes.sh
+screen -t aes /bin/sh /home/nevrax/patchman/loop_aes.sh
 

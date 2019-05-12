@@ -381,25 +381,25 @@ define shard_std01_las_master
 	host pd3.std01.ryzomcore.local
 
 define las_mainland01
-	cfgAfter StartCommands += {"PDRootDirectory /srv/core/backup01/save_shard_pd/std01_mainland01/pds"};
+	cfgAfter StartCommands += {"PDRootDirectory /home/nevrax/backup01/save_shard_pd/std01_mainland01/pds"};
 	cfgAfter WebPort = 49899;
 	name las_mainland01
 	use las
 
 define las_mainland02
-	cfgAfter StartCommands += {"PDRootDirectory /srv/core/backup01/save_shard_pd/std01_mainland02/pds"};
+	cfgAfter StartCommands += {"PDRootDirectory /home/nevrax/backup01/save_shard_pd/std01_mainland02/pds"};
 	cfgAfter WebPort = 49898;
 	name las_mainland02
 	use las
 
 define las_ring01
-	cfgAfter StartCommands += {"PDRootDirectory /srv/core/backup01/save_shard_pd/std01_ring01/pds"};
+	cfgAfter StartCommands += {"PDRootDirectory /home/nevrax/backup01/save_shard_pd/std01_ring01/pds"};
 	cfgAfter WebPort = 49894;
 	name las_ring01
 	use las
 
 define las_ring02
-	cfgAfter StartCommands += {"PDRootDirectory /srv/core/backup01/save_shard_pd/std01_ring02/pds"};
+	cfgAfter StartCommands += {"PDRootDirectory /home/nevrax/backup01/save_shard_pd/std01_ring02/pds"};
 	cfgAfter WebPort = 49893;
 	name las_ring02
 	use las
@@ -418,25 +418,25 @@ define shard_std01_las_slave
 	host pd4.std01.ryzomcore.local
 
 define las_mainland01_slave
-	cfgAfter StartCommands += {"PDRootDirectory /srv/core/backup01/save_shard_pd/std01_mainland01/pds"};
+	cfgAfter StartCommands += {"PDRootDirectory /home/nevrax/backup01/save_shard_pd/std01_mainland01/pds"};
 	cfgAfter WebPort = 49899;
 	name las2_mainland01
 	use las
 
 define las_mainland02_slave
-	cfgAfter StartCommands += {"PDRootDirectory /srv/core/backup01/save_shard_pd/std01_mainland02/pds"};
+	cfgAfter StartCommands += {"PDRootDirectory /home/nevrax/backup01/save_shard_pd/std01_mainland02/pds"};
 	cfgAfter WebPort = 49898;
 	name las2_mainland02
 	use las
 
 define las_ring01_slave
-	cfgAfter StartCommands += {"PDRootDirectory /srv/core/backup01/save_shard_pd/std01_ring01/pds"};
+	cfgAfter StartCommands += {"PDRootDirectory /home/nevrax/backup01/save_shard_pd/std01_ring01/pds"};
 	cfgAfter WebPort = 49894;
 	name las2_ring01
 	use las
 
 define las_ring02_slave
-	cfgAfter StartCommands += {"PDRootDirectory /srv/core/backup01/save_shard_pd/std01_ring02/pds"};
+	cfgAfter StartCommands += {"PDRootDirectory /home/nevrax/backup01/save_shard_pd/std01_ring02/pds"};
 	cfgAfter WebPort = 49893;
 	name las2_ring02
 	use las

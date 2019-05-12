@@ -1,6 +1,6 @@
 #!/bin/sh -
 
-DOMAIN=$(pwd |sed "s%/srv/core/%%")
+DOMAIN=$(pwd |sed "s%/home/nevrax/%%")
 
 while(true)
 do

@@ -2,8 +2,8 @@
 
 while true
 do
-  cd /srv/core/
-  if [ -e /srv/core/admin_install.tgz ]
+  cd /home/nevrax/
+  if [ -e /home/nevrax/admin_install.tgz ]
 	  then
 	  tar xvzf admin_install.tgz
 	  chmod 775 bin/admin 2> /dev/null
@@ -17,7 +17,7 @@ do
 	  chmod 775 patchman/*.sh 2> /dev/null
   fi
 
-  cd /srv/core/patchman/
+  cd /home/nevrax/patchman/
   if [ $(grep $(hostname) patchman_list |wc -l) -gt 0 ]
 	  then
 	  export SERVER_TYPE=$(grep $(hostname) patchman_list | awk '{ print $1 }')

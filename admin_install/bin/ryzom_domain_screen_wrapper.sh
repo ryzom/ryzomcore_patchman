@@ -1,7 +1,7 @@
 #!/bin/sh
 
 CMD=$1
-DOMAIN=$(pwd|sed s%/srv/core/%%)
+DOMAIN=$(pwd|sed s%/home/nevrax/%%)
 
 if [ "$CMD" = "" ]
 then
@@ -50,7 +50,7 @@ then
 		echo Cannot start domain \'${DOMAIN}\' because this domain is already started
 		screen -list | grep $DOMAIN
 	else
-	    screen $STARTARGS -S ${DOMAIN} -c /srv/core/${DOMAIN}.screen.rc
+	    screen $STARTARGS -S ${DOMAIN} -c /home/nevrax/${DOMAIN}.screen.rc
 	fi
 fi
 

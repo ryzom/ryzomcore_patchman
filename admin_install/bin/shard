@@ -1,4 +1,4 @@
 #!/bin/sh
 
-cd /srv/core/mini01
-/bin/sh /srv/core/bin/ryzom_domain_screen_wrapper.sh $*
+cd /home/nevrax/mini01
+/bin/sh /home/nevrax/bin/ryzom_domain_screen_wrapper.sh $*

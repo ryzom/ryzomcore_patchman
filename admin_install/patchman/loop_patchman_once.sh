@@ -6,7 +6,7 @@ echo cfg file: $CFGFILENAME
 #AESCFGFILENAME=admin_executor_service_default.${SERVER_TYPE}.cfg
 #echo aes cfg file: $AESCFGFILENAME
 
-cd /srv/core/patchman
+cd /home/nevrax/patchman
 if [ -e $CFGFILENAME ]
 	then
 

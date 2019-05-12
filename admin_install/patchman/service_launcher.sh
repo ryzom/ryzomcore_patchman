@@ -2,7 +2,7 @@
 
 # the objective is to make a launcher script that works with a command file to determine when to launch the application that it is responsible for
 
-DOMAIN=$(pwd |sed "s%/srv/core/%%" | sed "s%/.*%%")
+DOMAIN=$(pwd |sed "s%/home/nevrax/%%" | sed "s%/.*%%")
 NAME_BASE=$(pwd | sed 's/\/srv\/core\///' | sed 's/^.*\///')
 
 #if [ _$DOMAIN == _pre_live ]

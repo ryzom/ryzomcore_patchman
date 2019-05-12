@@ -33,21 +33,21 @@ then
 	for s in $(screen -list | grep "\.admin.*" | awk '{ print $1 }'); do screen -drR $s -X quit; done
 
 	# start the main admin session
-    screen -d -m -S admin -c /srv/core/bin/admin.screen.rc
+    screen -d -m -S admin -c /home/nevrax/bin/admin.screen.rc
 
 	# decide which hostname to use...
 	HOSTNAME=$(hostname)
-	if [ $(grep $HOSTNAME /srv/core/patchman/special_patchman_list | wc -w) = 0 ]
+	if [ $(grep $HOSTNAME /home/nevrax/patchman/special_patchman_list | wc -w) = 0 ]
 	then
 		HOSTNAME=$(hostname -s)
 	fi
 	
 	# if this machine has associated special admin functins then start the appropriate admin sessions
 	echo Looking for sessions for host: $HOSTNAME
-	for ROLE in $(grep $HOSTNAME /srv/core/patchman/special_patchman_list | awk '{ print $1 }')
+	for ROLE in $(grep $HOSTNAME /home/nevrax/patchman/special_patchman_list | awk '{ print $1 }')
 	do
-	  ROLE_DIR=/srv/core/$ROLE
-	  SRC_CFG_FILE=/srv/core/patchman/patchman_service.$ROLE.cfg
+	  ROLE_DIR=/home/nevrax/$ROLE
+	  SRC_CFG_FILE=/home/nevrax/patchman/patchman_service.$ROLE.cfg
 
 	  # make sure the cfg file exists for the patchman we're to launch
 	  if [ -e $SRC_CFG_FILE ]
@@ -64,7 +64,7 @@ then
 		  # start the next patchman in its own screen session
 		  pushd $ROLE_DIR > /dev/null
 		  echo STARTING $SCREEN_NAME \($ROLE\)
-		  screen -d -m -S $SCREEN_NAME /bin/sh /srv/core/patchman/loop_special_patchman.sh /srv/core/patchman/ryzom_patchman_service -L. -C.
+		  screen -d -m -S $SCREEN_NAME /bin/sh /home/nevrax/patchman/loop_special_patchman.sh /home/nevrax/patchman/ryzom_patchman_service -L. -C.
 		  popd > /dev/null
 
 	  else
@@ -77,7 +77,7 @@ then
 	# try launching the screen sessions that correspond to the machine type that we have...
 	
 	# get the domain list
-	cd /srv/core/patchman/
+	cd /home/nevrax/patchman/
 	if [ $(grep $(hostname) auto_start_domain_list |wc -l) -gt 0 ]
 		then
 		DOMAIN_LIST=$(grep $(hostname) auto_start_domain_list | cut -d\  -f2-)
@@ -99,14 +99,14 @@ then
 		for f in $DOMAIN_LIST
 		do
 			# see if we're setup to run this domain
-			if [ -e /srv/core/${f}.screen.rc ] && [ -e /srv/core/bin/domain_${f} ]
+			if [ -e /home/nevrax/${f}.screen.rc ] && [ -e /home/nevrax/bin/domain_${f} ]
 			then
 				# see whether the domain is alredy running
 				if [ $( screen -list | grep \\\.${f} | wc -w ) = 0 ]
 				then
 					# the domain isn't running yet so start it
 					echo '****' starting domain: $f '****'
-					/srv/core/bin/domain_$f batchstart
+					/home/nevrax/bin/domain_$f batchstart
 				else
 					echo '****' Domain is already running: $f '****'
 				fi
