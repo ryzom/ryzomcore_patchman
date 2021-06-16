@@ -1,0 +1,4 @@
+#!/bin/sh
+
+cd /home/nevrax/mini01
+/bin/sh /home/nevrax/bin/ryzom_domain_screen_wrapper.sh $*

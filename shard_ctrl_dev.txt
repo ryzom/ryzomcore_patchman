@@ -1,0 +1,127 @@
+//-----------------------------------------------------------------------------
+// Development Domain
+//-----------------------------------------------------------------------------
+
+// the domain ----------------------
+
+define domain_dev
+	domain dev
+	use shard_dev_unifier
+	use shard_dev_mainland
+	use shard_dev_ring
+
+	// domain ports
+	cfg ASWebPort="46790";
+	cfg ASPort="46791";
+	cfg AESPort="46792";
+	cfg SUPort = 50505;
+	cfg SUGlobalPort = 50503;
+	cfg L3BSPort = "49950";
+	cfg L3SlaveBSPort = "49951";
+	cfg L3MasterLGSPort = 49992;
+	cfg L3SlaveLGSPort = 49993;
+	cfg LGSBSPort = 49994;
+	cfg L3LGSBSPort = 49995;
+
+	// domain hosts
+	cfg AESHost="localhost";
+	cfg SUHost = "NL_HOSTNAME";
+	cfg MFSHost = "NL_HOSTNAME";
+	cfg BSHost = "NL_HOSTNAME:49990";
+	cfg PDBSHost= "NL_HOSTNAME:49991";
+	cfg MasterLGSHost = "NL_HOSTNAME";
+	cfg SlaveLGSHost = "NL_HOSTNAME";
+	cfg LGSBSHost = "NL_HOSTNAME";
+	cfg DBHost = "NL_HOSTNAME";
+	cfg DBPort = "9040";
+	cfgAfter WebSrvHost = "http://NL_HOSTNAME:9042";
+
+	// initial config files
+	cfgFile ../cfg/00_base.cfg
+	cfgFile ../cfg/01_domain_dev.cfg
+
+	// shard names and ids
+	cfgAfter Mainlands = {
+	cfgAfter 	"901", "Mainland", "(Local Development)", "en",
+	cfgAfter };
+	cfgAfter HomeMainlandNames = {
+	cfgAfter 	"901", "Mainland", "mainland",
+	cfgAfter };
+	cfgAfter RRDVarPath = "../rrd_graphs";
+
+	// addition of extra filters for this domain
+	// cfgAfter NegFiltersDebug += {"DEFAULT_CB", "NET","ADMIN","MIRROR","CDB_MULTI_IMPULSION"};
+	// cfgAfter NegFiltersInfo += {"NET", "FETIME","TimerManagerUpdate"};
+	// cfgAfter NegFiltersWarning += {"AES"};
+	// default minimal access
+	// cfgAfter DefaultCharRingAccess = "a1";
+	// full ring access rights
+	cfgAfter DefaultCharRingAccess = "f7:j7:l6:d7:p13:g9:a9";
+	// cfgAfter RingAccessLimits = "d3:j2:f2:l2:p2";
+	cfgAfter RingRPEnabled = 0;
+	cfgAfter DomainName = "dev";
+	cfgAfter EnableStlAllocatorChecker = 0;
+
+	// hook for local overrides (per machine)
+	cfgAfter #optional "../local.cfg"
+
+
+// shard unifier -------------------
+
+define shard_dev_unifier
+	shard unifier
+	cfg ShardId = 900;
+	data data_www
+	use ras
+	use exe_set_std_unifier
+	use bms_master
+	use exe_set_std_lgs_master
+	use exe_set_std_lgs_slave
+	use backup_lgs
+	// cfg DBPass="nevrax";
+	host NL_HOSTNAME
+
+
+// shard mainland ---------------------
+
+define shard_dev_mainland
+	shard mainland
+	use shard_exe_set_dev_mainland
+	cfg ShardId = 901;
+	cfg BasePort = 59100;
+	cfg FSBasePort = 47980;
+	cfg SaveFilesDirectory="dev_mainland/";
+	cfg StringManagerCacheDirectory = "../data_shard_mainland";
+	cfg LogChatDirectory = "../data_shard_mainland";
+	cfgAfter NSPort = 50901;
+	cfgAfter NSHost = "NL_HOSTNAME:50901";
+	cfgFile ../cfg/02_shard_type_std_mainland.cfg
+	// Activate logging of time consuming AStar searches
+	// cfg LogTimeConsumingAStar = 1;
+	// Dissable generation / display of nldebug messages
+	// cfg DissableNLDebug = 1;
+
+define shard_exe_set_dev_mainland
+	use exe_set_all_mainland
+	host NL_HOSTNAME
+	cfg FSListenHost = "NL_HOSTNAME"; // FES
+	// cfgAfter ClientCommandsPrivilegesFile = "client_commands_privileges_open.txt"; // EGS
+	// cfgAfter AcceptInvalidCookie = 1; // LS
+
+
+// shard ring --------------------
+
+define shard_dev_ring
+	shard ring
+	use exe_set_mini_ring
+	cfg ShardId = 911;
+	cfg BasePort = 59300;
+	cfg FSBasePort = 47910;
+	cfg SaveFilesDirectory="dev_ring/";
+	cfg StringManagerCacheDirectory = "../data_shard_ring";
+	cfg LogChatDirectory = "../data_shard_ring";
+	cfg FSListenHost = "NL_HOSTNAME";
+	cfgFile ../cfg/02_shard_type_mini_ring.cfg
+	host NL_HOSTNAME
+	cfgAfter NSPort = 50911;
+	cfgAfter NSHost = "NL_HOSTNAME:50911";
