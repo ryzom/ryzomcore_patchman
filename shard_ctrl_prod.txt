@@ -1,17 +1,17 @@
 //-----------------------------------------------------------------------------
-// example Domain
+// Prod Domain
 //-----------------------------------------------------------------------------
 
 // the domain ----------------------
 
-define domain_example
-	domain example
-	use shard_example_unifier
-	use shard_example_ml1
-	use shard_example_ml2
-	use shard_example_csr
-	use shard_example_rra
-	use shard_example_rrb
+define domain_prod
+	domain prod
+	use shard_prod_unifier
+	use shard_prod_ml1
+	use shard_prod_ml2
+	use shard_prod_csr
+	use shard_prod_rra
+	use shard_prod_rrb
 	
 	// domain ports
 	cfg ASWebPort="46760";
@@ -28,20 +28,20 @@ define domain_example
 
 	// domain hosts
 	cfg AESHost="localhost";
-	cfg SUHost = "example";
-	cfg MFSHost = "example";
-	cfg BSHost = "example:49990";
-	cfg PDBSHost= "example:49991";
-	cfg MasterLGSHost = "example";
-	cfg SlaveLGSHost = "example";
-	cfg LGSBSHost = "example";
+	cfg SUHost = "prod";
+	cfg MFSHost = "prod";
+	cfg BSHost = "prod:49990";
+	cfg PDBSHost= "prod:49991";
+	cfg MasterLGSHost = "prod";
+	cfg SlaveLGSHost = "prod";
+	cfg LGSBSHost = "prod";
 	cfg DBHost = "maria";
 	cfg DBPort = "3306";
-	cfgAfter WebSrvHost = "https://example.ryzom.dev/";
+	cfgAfter WebSrvHost = "https://prod.example.com/";
 
 	// initial config files
 	cfgFile ../cfg/00_base.cfg
-	cfgFile ../cfg/01_domain_example.cfg
+	cfgFile ../cfg/01_domain_prod.cfg
 
 	// shard names and ids
 	cfgAfter Mainlands = {
@@ -66,7 +66,7 @@ define domain_example
 	cfgAfter DefaultCharRingAccess="f7:j7:l6:d7:p13:g9:a9";
 	// cfgAfter RingAccessLimits="d3:j2:f2:l2:p2";
 	cfgAfter RingRPEnabled=0;
-	cfgAfter DomainName = "example";
+	cfgAfter DomainName = "prod";
 	cfgAfter EnableStlAllocatorChecker = 0;
 
 	// hook for local overrides (per machine)
@@ -75,7 +75,7 @@ define domain_example
 
 // shard unifier -------------------
 
-define shard_example_unifier
+define shard_prod_unifier
 	shard unifier
 	cfg ShardId = 600;
 	data data_www
@@ -86,18 +86,18 @@ define shard_example_unifier
 	use exe_set_std_lgs_slave
 	use backup_lgs
 	// cfg DBPass="nevrax";
-	host example
+	host prod
 
 
 // shard ml1 ---------------------
 
-define shard_example_ml1
+define shard_prod_ml1
 	shard ml1
-	use shard_exe_set_example_ml1
+	use shard_exe_set_prod_ml1
 	cfg ShardId = 601;
 	cfg BasePort = 56100;
 	cfg FSBasePort = 47670;
-	cfg SaveFilesDirectory="example_ml1/";
+	cfg SaveFilesDirectory="prod_ml1/";
 	cfg StringManagerCacheDirectory = "../data_shard_ml1";
 	cfg LogChatDirectory = "../data_shard_ml1";
 	cfgAfter NSPort = 50601;
@@ -108,22 +108,22 @@ define shard_example_ml1
 	// Dissable generation / display of nldebug messages
 	// cfg DissableNLDebug = 1;
 
-define shard_exe_set_example_ml1
+define shard_exe_set_prod_ml1
 	use exe_set_all_mainland
 	host game
-	cfg FSListenHost = "game.ryzom.dev"; // FES
+	cfg FSListenHost = "game.example.com"; // FES
 	// cfgAfter AcceptInvalidCookie = 1; // LS
 
 
 // shard ml2 ---------------------
 
-define shard_example_ml2
+define shard_prod_ml2
 	shard ml2
-	use shard_exe_set_example_ml2
+	use shard_exe_set_prod_ml2
 	cfg ShardId = 602;
 	cfg BasePort = 56200;
 	cfg FSBasePort = 47680;
-	cfg SaveFilesDirectory="example_ml2/";
+	cfg SaveFilesDirectory="prod_ml2/";
 	cfg StringManagerCacheDirectory = "../data_shard_ml2";
 	cfg LogChatDirectory = "../data_shard_ml2";
 	cfgAfter NSPort = 50602;
@@ -134,26 +134,26 @@ define shard_example_ml2
 	// Dissable generation / display of nldebug messages
 	// cfg DissableNLDebug = 1;
 
-define shard_exe_set_example_ml2
+define shard_exe_set_prod_ml2
 	use exe_set_all_mainland
 	host game
-	cfg FSListenHost = "game.ryzom.dev"; // LS
+	cfg FSListenHost = "game.example.com"; // LS
 	cfgAfter ClientCommandsPrivilegesFile = "client_commands_privileges_open.txt"; // EGS
 	// cfgAfter AcceptInvalidCookie = 1; // LS
 
 
 // shard csr -----------------------
 
-define shard_example_csr
+define shard_prod_csr
 	shard csr
 	use exe_set_mini_mainland
 	cfg ShardId = 699;
 	cfg BasePort = 56900;
 	cfg FSBasePort = 47690;
-	cfg SaveFilesDirectory="example_csr/";
+	cfg SaveFilesDirectory="prod_csr/";
 	cfg StringManagerCacheDirectory = "../data_shard_csr";
 	cfg LogChatDirectory = "../data_shard_csr";
-	cfg FSListenHost = "game.ryzom.dev";
+	cfg FSListenHost = "game.example.com";
 	cfgFile ../cfg/02_shard_type_mini_mainland.cfg
 	host game
 	cfgAfter NSPort = 50699;
@@ -162,16 +162,16 @@ define shard_example_csr
 
 // shard ring01 --------------------
 
-define shard_example_rra
+define shard_prod_rra
 	shard ring01
 	use exe_set_mini_ring
 	cfg ShardId = 611;
 	cfg BasePort = 56300;
 	cfg FSBasePort = 47610;
-	cfg SaveFilesDirectory="example_ring01/";
+	cfg SaveFilesDirectory="prod_ring01/";
 	cfg StringManagerCacheDirectory = "../data_shard_ring01";
 	cfg LogChatDirectory = "../data_shard_ring01";
-	cfg FSListenHost = "game.ryzom.dev";
+	cfg FSListenHost = "game.example.com";
 	cfgFile ../cfg/02_shard_type_mini_ring.cfg
 	host game
 	cfgAfter NSPort = 50611;
@@ -180,16 +180,16 @@ define shard_example_rra
 
 // shard ring02 --------------------
 
-define shard_example_rrb
+define shard_prod_rrb
 	shard ring02
 	use exe_set_mini_ring
 	cfg ShardId = 612;
 	cfg BasePort = 56400;
 	cfg FSBasePort = 47620;
-	cfg SaveFilesDirectory="example_ring02/";
+	cfg SaveFilesDirectory="prod_ring02/";
 	cfg StringManagerCacheDirectory = "../data_shard_ring02";
 	cfg LogChatDirectory = "../data_shard_ring02";
-	cfg FSListenHost = "game.ryzom.dev";
+	cfg FSListenHost = "game.example.com";
 	cfgFile ../cfg/02_shard_type_mini_ring.cfg
 	host game
 	cfgAfter NSPort = 50612;

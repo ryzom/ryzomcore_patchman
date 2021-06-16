@@ -5,6 +5,6 @@ include "../shard_ctrl_definitions.txt"
 
 
 // ---------------------------------
-// classic domain
+// prod domain
 
-include "../shard_ctrl_example.txt"
+include "../shard_ctrl_prod.txt"

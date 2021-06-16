@@ -3,11 +3,11 @@ shard_ctrl_definitions.txt: Contains all macros for various shard services and s
 
 shard_ctrl_dev.txt: Example configuration for a development domain with a single mainland and a single ring shard running on one machine.
 
-terminal_dev: Contains the terminal to control the patch managers of the mini01 domain. This is used by the pipeline scripts.
+terminal_dev: Contains the terminal to control the patch managers of the dev domain. This is used by the pipeline scripts.
 
-shard_ctrl_example.txt: Example configuration for a production domain with multiple shards.
+shard_ctrl_prod.txt: Example configuration for a production domain with multiple shards.
 
-terminal_example: Contains the terminal to control the patch managers of the mini01 domain.
+terminal_prod: Contains the terminal to control the patch managers of the prod domain.
 
 default: Contains base configuration files of the services containing per-service non-domain non-shard specific values.
 

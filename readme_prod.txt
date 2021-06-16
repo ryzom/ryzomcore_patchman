@@ -30,8 +30,8 @@ PATCHMAN PORTS
 
 PORT  HOST      WHAT                                TUNNEL INFO
 ----- --------- ----------------------------------- -------------------------------------------------------------------
-44745 example   example file deployment network     (tunnel as localhost:44745)
-44751 example   all test SPM networks               (tunnel as localhost:44751) - machine uses 'example machines' password
+44745 prod   prod file deployment network     (tunnel as localhost:44745)
+44751 prod   all test SPM networks               (tunnel as localhost:44751) - machine uses 'prod machines' password
 
 
 -----------------------------------------------------------------------------------
@@ -39,11 +39,11 @@ Used ports for admin:
 -------------------------------------
 Domain          AES     AS      ASWEB
 -------------------------------------
-EXAMPLE         46762   46761   46760
+PROD            46762   46761   46760
 
 
 -----------------------------------------------------------------------------------
-EXAMPLE
+PROD
 ---
 BASEPORTS:
 - UNI 56000

@@ -1,5 +1,5 @@
 
 // format: service host
 
-example_spm example
-example_bridge example
+live_spm prod
+live_bridge prod
