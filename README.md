@@ -9,6 +9,7 @@ X is the shortened domain identifier, Y is a shortened shard identifier, ZZZ is 
 | Service | From | To |
 | --- | --- | --- |
 | Shard Services | 3XY00 | 3XY99 |
+| BS | 43000 | 43999 |
 | Patchman Services | 44000 | 44999 |
 | NS | 45ZZZ | |
 | Domain Services | 46X00 | 46X99 |
@@ -23,15 +24,15 @@ X is the shortened domain identifier, Y is a shortened shard identifier, ZZZ is 
 | AES | 46X97 | 46997 |
 | SU L5 | 46X96 | 46996 |
 | SU L3 | 46X95 | 46995 |
-| L3 Master BS | 46X94 | 46994 |
-| L3 Slave BS | 46X93 | 46993 |
-| L3 Master LGS | 46X92 | 46992 |
-| L3 Slave LGS | 46X91 | 46991 |
-| LGS BS | 46X90 | 46990 |
-| L3 LGS BS | 46X89 | 46989 |
-| RSM | 46X88 | 46988 |
-| LS | 46X87 | 46987 |
-| MFS Fwd | 46X86 | 46986 |
+| RSM | 46X94 | 46994 |
+| LS | 46X93 | 46993 |
+| MFS Fwd | 46X92 | 46991 |
+| L3 Master BS | 43950 | |
+| L3 Slave BS | 43951 | |
+| L3 Master LGS | 43992 | |
+| L3 Slave LGS | 43993 | |
+| LGS BS | 43994 | |
+| L3 LGS BS | 43995 | |
 | Patchman SPM Files | 44749 | |
 | Patchman Bridge | 44745 | |
 | Patchman SPM Commands | 44752 | |

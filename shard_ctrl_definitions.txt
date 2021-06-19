@@ -415,67 +415,67 @@ define bms
 
 define bms_master
 	use bms
-	cmdLine backup_service -C. -L. --nobreak --writepid -P49990
+	cmdLine backup_service -C. -L. --nobreak --writepid -P39990
 	//cfg #include "../live/cfg/backup_module_service_master.cfg"
 	cfg #include "../live/service_backup_service/backup_service.cfg"
-	cfgAfter ListeningPort = 49990;
-	cfgAfter L3ListeningPort = 49950;
-	cfgAfter WebPort = 49970;
+	cfgAfter ListeningPort = 43990;
+	cfgAfter L3ListeningPort = 43950;
+	cfgAfter WebPort = 43970;
 	cfgAfter BSReadState = 1;
 	cfgAfter SaveShardRoot = "../save_shard_bs/";
 
 define bms_master2
 	use bms
-	cmdLine backup_service -C. -L. --nobreak --writepid -P49994
+	cmdLine backup_service -C. -L. --nobreak --writepid -P43994
 	//cfg #include "../live/cfg/backup_module_service_master.cfg"
 	cfg #include "../live/service_backup_service/backup_service.cfg"
-	cfgAfter ListeningPort = 49994;
-	cfgAfter L3ListeningPort = 49954;
-	cfgAfter WebPort = 49974;
+	cfgAfter ListeningPort = 43994;
+	cfgAfter L3ListeningPort = 43954;
+	cfgAfter WebPort = 43974;
 	cfgAfter BSReadState = 1;
 	cfgAfter SaveShardRoot = "../save_shard_bs/";
 
 define bms_slave
 	use bms
-	cmdLine backup_service -C. -L. --nobreak --writepid -P49991
+	cmdLine backup_service -C. -L. --nobreak --writepid -P43991
 	//cfg #include "../live/cfg/backup_module_service_slave.cfg"
 	cfg #include "../live/service_backup_service/backup_service.cfg"
-	cfgAfter ListeningPort = 49991;
-	cfgAfter L3ListeningPort = 49951;
-	cfgAfter WebPort = 49971;
+	cfgAfter ListeningPort = 43991;
+	cfgAfter L3ListeningPort = 43951;
+	cfgAfter WebPort = 43971;
 	cfgAfter BSReadState = 0;
 	cfgAfter SaveShardRoot = "../save_shard_bs/";
 
 define bms_pd_master
 	use bms
-	cmdLine backup_service -C. -L. --nobreak --writepid -P49992
+	cmdLine backup_service -C. -L. --nobreak --writepid -P43992
 	//cfg #include "../live/cfg/backup_module_service_master.cfg"
 	cfg #include "../live/service_backup_service/backup_service.cfg"
-	cfgAfter ListeningPort = 49992;
-	cfgAfter L3ListeningPort = 49952;
-	cfgAfter WebPort = 49972;
+	cfgAfter ListeningPort = 43992;
+	cfgAfter L3ListeningPort = 43952;
+	cfgAfter WebPort = 43972;
 	cfgAfter BSReadState = 1;
 	cfgAfter SaveShardRoot = "../save_shard_pd/";
 
 define bms_pd_slave
 	use bms
-	cmdLine backup_service -C. -L. --nobreak --writepid -P49993
+	cmdLine backup_service -C. -L. --nobreak --writepid -P43993
 	//cfg #include "../live/cfg/backup_module_service_slave.cfg"
 	cfg #include "../live/service_backup_service/backup_service.cfg"
-	cfgAfter ListeningPort = 49993;
-	cfgAfter L3ListeningPort = 49953;
-	cfgAfter WebPort = 49973;
+	cfgAfter ListeningPort = 43993;
+	cfgAfter L3ListeningPort = 43953;
+	cfgAfter WebPort = 43973;
 	cfgAfter BSReadState = 0;
 	cfgAfter SaveShardRoot = "../save_shard_pd/";
 
 define backup_lgs
 	use bms
-	cmdLine backup_service -C. -L. --nobreak --writepid -P49994
+	cmdLine backup_service -C. -L. --nobreak --writepid -P43994
 	//cfg #include "../live/cfg/backup_module_service_master.cfg"
 	cfg #include "../live/service_backup_service/backup_service.cfg"
-	cfgAfter ListeningPort = 49994;
-	cfgAfter L3ListeningPort = 49995;
-	cfgAfter WebPort = 49972;
+	cfgAfter ListeningPort = 43994;
+	cfgAfter L3ListeningPort = 43995;
+	cfgAfter WebPort = 43972;
 	cfgAfter BSReadState = 1;
 	cfgAfter SaveShardRoot = "../save_shard_lgs/";
 	cfgAfter UseTempFile = 0;

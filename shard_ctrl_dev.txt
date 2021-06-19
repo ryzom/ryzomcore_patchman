@@ -16,22 +16,23 @@ define domain_dev
 	cfg AESPort = "46997";
 	cfg SUPort = 46996;
 	cfg SUGlobalPort = 46995;
-	cfg L3BSPort = "46994";
-	cfg L3SlaveBSPort = "46993";
-	cfg L3MasterLGSPort = 46992;
-	cfg L3SlaveLGSPort = 46991;
-	cfg LGSBSPort = 46990;
-	cfg L3LGSBSPort = 46989;
-	cfg RSMPort = "46988";
-	cfg LSPort = "46987";
-	cfg MFSFwdPort = "46986";
+	cfg RSMPort = "46994";
+	cfg LSPort = "46993";
+	cfg MFSFwdPort = "46992";
+	
+	cfg L3BSPort = "43950";
+	cfg L3SlaveBSPort = "43951";
+	cfg L3MasterLGSPort = 43992;
+	cfg L3SlaveLGSPort = 43993;
+	cfg LGSBSPort = 43994;
+	cfg L3LGSBSPort = 43995;
 
 	// domain hosts
 	cfg AESHost="localhost";
 	cfg SUHost = "NL_HOSTNAME";
 	cfg MFSHost = "NL_HOSTNAME";
-	cfg BSHost = "NL_HOSTNAME:49990";
-	cfg PDBSHost= "NL_HOSTNAME:49991";
+	cfg BSHost = "NL_HOSTNAME:43990";
+	cfg PDBSHost= "NL_HOSTNAME:43991";
 	cfg MasterLGSHost = "NL_HOSTNAME";
 	cfg SlaveLGSHost = "NL_HOSTNAME";
 	cfg LGSBSHost = "NL_HOSTNAME";
@@ -126,5 +127,5 @@ define shard_dev_ring
 	cfg FSListenHost = "NL_HOSTNAME";
 	cfgFile ../cfg/02_shard_type_mini_ring.cfg
 	host NL_HOSTNAME
-	cfgAfter NSPort = 50911;
-	cfgAfter NSHost = "NL_HOSTNAME:50911";
+	cfgAfter NSPort = 45911;
+	cfgAfter NSHost = "NL_HOSTNAME:45911";
