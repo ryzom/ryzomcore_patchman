@@ -27,13 +27,15 @@ X is the shortened domain identifier, Y is a shortened shard identifier, ZZZ is 
 | RSM | 46X94 | 46994 |
 | LS | 46X93 | 46993 |
 | MFS Fwd | 46X92 | 46991 |
+| MFS | 43980 | |
 | L3 Master BS | 43950 | |
 | L3 Slave BS | 43951 | |
+| BS | 43990 | |
+| PDBS | 43991 | |
 | L3 Master LGS | 43992 | |
 | L3 Slave LGS | 43993 | |
 | LGS BS | 43994 | |
 | L3 LGS BS | 43995 | |
-| MFS | 43980 | |
 | Patchman SPM Files | 44749 | |
 | Patchman Bridge | 44745 | |
 | Patchman SPM Commands | 44752 | |
