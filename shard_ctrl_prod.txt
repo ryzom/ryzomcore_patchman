@@ -22,7 +22,7 @@ define domain_prod
 	cfg LSPort = "46693";
 	cfg MFSFwdPort = "46692";
 	
-	cfg SUPort = 43505;
+	cfg SUPort = 50505;
 	cfg L3BSPort = "43950";
 	cfg L3SlaveBSPort = "43951";
 	cfg L3MasterLGSPort = 43992;
@@ -34,7 +34,7 @@ define domain_prod
 	cfg AESHost="localhost";
 	cfg SUHost = "prod";
 	cfg MFSHost = "prod";
-	cfg BSHost = "prod:43990";
+	cfg BSHost = "prod:49990";
 	cfg PDBSHost= "prod:43991";
 	cfg MasterLGSHost = "prod";
 	cfg SlaveLGSHost = "prod";

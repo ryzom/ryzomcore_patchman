@@ -415,10 +415,10 @@ define bms
 
 define bms_master
 	use bms
-	cmdLine backup_service -C. -L. --nobreak --writepid -P43990
+	cmdLine backup_service -C. -L. --nobreak --writepid -P49990
 	//cfg #include "../live/cfg/backup_module_service_master.cfg"
 	cfg #include "../live/service_backup_service/backup_service.cfg"
-	cfgAfter ListeningPort = 43990;
+	cfgAfter ListeningPort = 49990;
 	cfgAfter L3ListeningPort = 43950;
 	cfgAfter WebPort = 43970;
 	cfgAfter BSReadState = 1;

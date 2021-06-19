@@ -22,7 +22,7 @@ X is the shortened domain identifier, Y is a shortened shard identifier, ZZZ is 
 | AS Web | 46X99 | 46999 |
 | AS | 46X98 | 46998 |
 | AES | 46X97 | 46997 |
-| SU L5 | 43505 |
+| SU L5 | 50505 |
 | SU L3 | 46X95 | 46995 |
 | RSM | 46X94 | 46994 |
 | LS | 46X93 | 46993 |
@@ -33,7 +33,7 @@ X is the shortened domain identifier, Y is a shortened shard identifier, ZZZ is 
 | L3 Slave LGS | 43993 | |
 | LGS BS | 43994 | |
 | L3 LGS BS | 43995 | |
-| MFS | 43980 | |
+| MFS | 49980 | |
 | Patchman SPM Files | 44749 | |
 | Patchman Bridge | 44745 | |
 | Patchman SPM Commands | 44752 | |

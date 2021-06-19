@@ -19,7 +19,7 @@ define domain_dev
 	cfg LSPort = "46993";
 	cfg MFSFwdPort = "46992";
 	
-	cfg SUPort = 43505;
+	cfg SUPort = 50505;
 	cfg L3BSPort = "43950";
 	cfg L3SlaveBSPort = "43951";
 	cfg L3MasterLGSPort = 43992;
@@ -31,7 +31,7 @@ define domain_dev
 	cfg AESHost="localhost";
 	cfg SUHost = "NL_HOSTNAME";
 	cfg MFSHost = "NL_HOSTNAME";
-	cfg BSHost = "NL_HOSTNAME:43990";
+	cfg BSHost = "NL_HOSTNAME:49990";
 	cfg PDBSHost= "NL_HOSTNAME:43991";
 	cfg MasterLGSHost = "NL_HOSTNAME";
 	cfg SlaveLGSHost = "NL_HOSTNAME";
