@@ -11,17 +11,20 @@ define domain_dev
 	use shard_dev_ring
 
 	// domain ports
-	cfg ASWebPort="46790";
-	cfg ASPort="46791";
-	cfg AESPort="46792";
-	cfg SUPort = 50505;
-	cfg SUGlobalPort = 50503;
-	cfg L3BSPort = "49950";
-	cfg L3SlaveBSPort = "49951";
-	cfg L3MasterLGSPort = 49992;
-	cfg L3SlaveLGSPort = 49993;
-	cfg LGSBSPort = 49994;
-	cfg L3LGSBSPort = 49995;
+	cfg ASWebPort = "46999";
+	cfg ASPort = "46998";
+	cfg AESPort = "46997";
+	cfg SUPort = 46996;
+	cfg SUGlobalPort = 46995;
+	cfg L3BSPort = "46994";
+	cfg L3SlaveBSPort = "46993";
+	cfg L3MasterLGSPort = 46992;
+	cfg L3SlaveLGSPort = 46991;
+	cfg LGSBSPort = 46990;
+	cfg L3LGSBSPort = 46989;
+	cfg RSMPort = "46988";
+	cfg LSPort = "46987";
+	cfg MFSFwdPort = "46986";
 
 	// domain hosts
 	cfg AESHost="localhost";
@@ -88,13 +91,13 @@ define shard_dev_mainland
 	shard mainland
 	use shard_exe_set_dev_mainland
 	cfg ShardId = 901;
-	cfg BasePort = 59100;
-	cfg FSBasePort = 47980;
+	cfg BasePort = 39100;
+	cfg FSBasePort = 47910;
 	cfg SaveFilesDirectory="dev_mainland/";
 	cfg StringManagerCacheDirectory = "../data_shard_mainland";
 	cfg LogChatDirectory = "../data_shard_mainland";
-	cfgAfter NSPort = 50901;
-	cfgAfter NSHost = "NL_HOSTNAME:50901";
+	cfgAfter NSPort = 45901;
+	cfgAfter NSHost = "NL_HOSTNAME:45901";
 	cfgFile ../cfg/02_shard_type_std_mainland.cfg
 	// Activate logging of time consuming AStar searches
 	// cfg LogTimeConsumingAStar = 1;
@@ -115,8 +118,8 @@ define shard_dev_ring
 	shard ring
 	use exe_set_mini_ring
 	cfg ShardId = 911;
-	cfg BasePort = 59300;
-	cfg FSBasePort = 47910;
+	cfg BasePort = 39300;
+	cfg FSBasePort = 47930;
 	cfg SaveFilesDirectory="dev_ring/";
 	cfg StringManagerCacheDirectory = "../data_shard_ring";
 	cfg LogChatDirectory = "../data_shard_ring";

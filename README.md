@@ -1,3 +1,57 @@
+# Port Assignment
+
+Automatic port allocation starts from the bottom of the port range. Manually allocated ports start from the back.
+
+Ports 49152-65535 may not be used, since they conflict with outgoing connections on Windows, and the shard will fail to launch.
+
+X is the shortened domain identifier, Y is a shortened shard identifier, ZZZ is the full shard identifier.
+
+| Service | From | To |
+| --- | --- | --- |
+| Shard Services | 3XY00 | 3XY99 |
+| Patchman Services | 44000 | 44999 |
+| NS | 45ZZZ | |
+| Domain Services | 46X00 | 46X99 |
+| FES | 47XY0 | 47XY9 |
+| SBS | 48XY0 | 48XY9 |
+
+| Service | Port | Development |
+| --- | --- | --- |
+| NS | 45ZZZ | 45901, 45911 |
+| AS Web | 46X99 | 46999 |
+| AS | 46X98 | 46998 |
+| AES | 46X97 | 46997 |
+| SU L5 | 46X96 | 46996 |
+| SU L3 | 46X95 | 46995 |
+| L3 Master BS | 46X94 | 46994 |
+| L3 Slave BS | 46X93 | 46993 |
+| L3 Master LGS | 46X92 | 46992 |
+| L3 Slave LGS | 46X91 | 46991 |
+| LGS BS | 46X90 | 46990 |
+| L3 LGS BS | 46X89 | 46989 |
+| RSM | 46X88 | 46988 |
+| LS | 46X87 | 46987 |
+| MFS Fwd | 46X86 | 46986 |
+| Patchman SPM Files | 44749 | |
+| Patchman Bridge | 44745 | |
+| Patchman SPM Commands | 44752 | |
+
+| Domain | Identifier | Short Identifier |
+| --- | --- | --- |
+| Development | 90 | 9 |
+| Production | 60 | 6 |
+
+| Domain | Shard | Identifier | Short Identifier |
+| --- | --- | --- | --- |
+| Development | Unifier | 900 | 0 |
+| Development | Mainland | 901 | 1 |
+| Development | Ring | 911 | 3 |
+| Production | Unifier | 600 | 0 |
+| Production | Mainland 1 | 601 | 1 |
+| Production | Mainland 2 | 602 | 2 |
+| Production | Ring 1 | 611 | 3 |
+| Production | Ring 2 | 612 | 4 |
+| Production | CSR | 699 | 9 |
 
 shard_ctrl_definitions.txt: Contains all macros for various shard services and shard configurations.
 

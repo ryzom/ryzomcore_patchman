@@ -933,7 +933,7 @@ define sbs
 	cfg DontUseNS = 0;
 	cfg StartCommands += 
 	cfg {
-	cfg		"moduleManager.createModule SessionBrowserServerMod sbs suAddr="+SUHost+":49999 listenPort="+SBSPort+" ring_db(host="+DBHost+" user="+DBRingUser+" password="+DBRingPass+" base="+DBRingName+" port="+DBPort+")",
+	cfg		"moduleManager.createModule SessionBrowserServerMod sbs suAddr="+SUHost+":"+RSMPort+" listenPort="+SBSPort+" ring_db(host="+DBHost+" user="+DBRingUser+" password="+DBRingPass+" base="+DBRingName+" port="+DBPort+")",
 	cfg		"sbs.plug gw",
 	cfg };
 	cfgAfter GraphVars += {	"NetSpeedLoop", "0" };
