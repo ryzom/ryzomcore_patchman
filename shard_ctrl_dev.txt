@@ -14,12 +14,12 @@ define domain_dev
 	cfg ASWebPort = "46999";
 	cfg ASPort = "46998";
 	cfg AESPort = "46997";
-	cfg SUPort = 46996;
 	cfg SUGlobalPort = 46995;
 	cfg RSMPort = "46994";
 	cfg LSPort = "46993";
 	cfg MFSFwdPort = "46992";
 	
+	cfg SUPort = 43505;
 	cfg L3BSPort = "43950";
 	cfg L3SlaveBSPort = "43951";
 	cfg L3MasterLGSPort = 43992;

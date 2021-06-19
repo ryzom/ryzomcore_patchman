@@ -17,12 +17,12 @@ define domain_prod
 	cfg ASWebPort = "46699";
 	cfg ASPort = "46698";
 	cfg AESPort = "46697";
-	cfg SUPort = 46696;
 	cfg SUGlobalPort = 46695;
 	cfg RSMPort = "46694";
 	cfg LSPort = "46693";
 	cfg MFSFwdPort = "46692";
 	
+	cfg SUPort = 43505;
 	cfg L3BSPort = "43950";
 	cfg L3SlaveBSPort = "43951";
 	cfg L3MasterLGSPort = 43992;

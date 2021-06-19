@@ -22,7 +22,7 @@ X is the shortened domain identifier, Y is a shortened shard identifier, ZZZ is 
 | AS Web | 46X99 | 46999 |
 | AS | 46X98 | 46998 |
 | AES | 46X97 | 46997 |
-| SU L5 | 46X96 | 46996 |
+| SU L5 | 43505 |
 | SU L3 | 46X95 | 46995 |
 | RSM | 46X94 | 46994 |
 | LS | 46X93 | 46993 |
