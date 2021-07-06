@@ -36,7 +36,7 @@ define domain_dev
 	cfg MasterLGSHost = "NL_HOSTNAME";
 	cfg SlaveLGSHost = "NL_HOSTNAME";
 	cfg LGSBSHost = "NL_HOSTNAME";
-	cfg DBHost = "NL_HOSTNAME";
+	cfg DBHost = "localhost";
 	cfg DBPort = "9040";
 	cfgAfter WebSrvHost = "http://NL_HOSTNAME:9042";
 
