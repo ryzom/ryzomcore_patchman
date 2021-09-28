@@ -18,15 +18,15 @@ do
   fi
 
   cd /home/nevrax/patchman/
-  if [ $(grep \ $(hostname) patchman_list |wc -l) -gt 0 ]
+  if [ $(grep \ $(hostname)\$ patchman_list |wc -l) -gt 0 ]
 	  then
-	  export SERVER_TYPE=$(grep \ $(hostname) patchman_list | awk '{ print $1 }')
-  elif [ $(grep \ $(hostname -s) patchman_list |wc -l) -gt 0 ]
+	  export SERVER_TYPE=$(grep \ $(hostname)\$ patchman_list | awk '{ print $1 }')
+  elif [ $(grep \ $(hostname -s)\$ patchman_list |wc -l) -gt 0 ]
 	  then
-	  export SERVER_TYPE=$(grep \ $(hostname -s) patchman_list | awk '{ print $1 }')
-  elif [ $(grep \ $(hostname -d) patchman_list |wc -l) -gt 0 ]
+	  export SERVER_TYPE=$(grep \ $(hostname -s)\$ patchman_list | awk '{ print $1 }')
+  elif [ $(grep \ $(hostname -d)\$ patchman_list |wc -l) -gt 0 ]
 	  then
-	  export SERVER_TYPE=$(grep \ $(hostname -d) patchman_list | awk '{ print $1 }')
+	  export SERVER_TYPE=$(grep \ $(hostname -d)\$ patchman_list | awk '{ print $1 }')
   else
 	  export SERVER_TYPE=default
 	  echo "ERROR: Neither \'hostname\' \($(hostname)\) nor \'hostname -s\' \($(hostname -s)\) nor \'hostname -d\' \($(hostname -d)\) found in $(pwd)/patchman_list"

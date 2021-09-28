@@ -37,14 +37,14 @@ then
 
 	# decide which hostname to use...
 	HOSTNAME=$(hostname)
-	if [ $(grep \ $HOSTNAME /home/nevrax/patchman/special_patchman_list | wc -w) = 0 ]
+	if [ $(grep \ $HOSTNAME\$ /home/nevrax/patchman/special_patchman_list | wc -w) = 0 ]
 	then
 		HOSTNAME=$(hostname -s)
 	fi
 	
 	# if this machine has associated special admin functins then start the appropriate admin sessions
 	echo Looking for sessions for host: $HOSTNAME
-	for ROLE in $(grep \ $HOSTNAME /home/nevrax/patchman/special_patchman_list | awk '{ print $1 }')
+	for ROLE in $(grep \ $HOSTNAME\$ /home/nevrax/patchman/special_patchman_list | awk '{ print $1 }')
 	do
 	  ROLE_DIR=/home/nevrax/$ROLE
 	  SRC_CFG_FILE=/home/nevrax/patchman/patchman_service.$ROLE.cfg
@@ -78,15 +78,15 @@ then
 	
 	# get the domain list
 	cd /home/nevrax/patchman/
-	if [ $(grep \ $(hostname) auto_start_domain_list |wc -l) -gt 0 ]
+	if [ $(grep \ $(hostname)\$ auto_start_domain_list |wc -l) -gt 0 ]
 		then
-		DOMAIN_LIST=$(grep \ $(hostname) auto_start_domain_list | cut -d\  -f2-)
-	elif [ $(grep \ $(hostname -s) auto_start_domain_list |wc -l) -gt 0 ]
+		DOMAIN_LIST=$(grep \ $(hostname)\$ auto_start_domain_list | cut -d\  -f2-)
+	elif [ $(grep \ $(hostname -s)\$ auto_start_domain_list |wc -l) -gt 0 ]
 		then
-		DOMAIN_LIST=$(grep \ $(hostname -s) auto_start_domain_list | cut -d\  -f2-)
-	elif [ $(grep \ $(hostname -d) auto_start_domain_list |wc -l) -gt 0 ]
+		DOMAIN_LIST=$(grep \ $(hostname -s)\$ auto_start_domain_list | cut -d\  -f2-)
+	elif [ $(grep \ $(hostname -d)\$ auto_start_domain_list |wc -l) -gt 0 ]
 		then
-		DOMAIN_LIST=$(grep \ $(hostname -d) auto_start_domain_list | cut -d\  -f2-)
+		DOMAIN_LIST=$(grep \ $(hostname -d)\$ auto_start_domain_list | cut -d\  -f2-)
 	else
 		echo "There are no domains to be autostarted here"
 		DOMAIN_LIST=none
