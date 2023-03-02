@@ -6,16 +6,16 @@ Ports 49152-65535 may not be used, since they conflict with outgoing connections
 
 X is the shortened domain identifier, Y is a shortened shard identifier, ZZZ is the full shard identifier.
 
-| Service | From | To |
-| --- | --- | --- |
-| Shard Services | 3XY00 | 3XY99 |
-| BS | 43000 | 43999 |
-| Patchman Services | 44000 | 44999 |
-| NS | 45ZZZ | |
-| Domain Services | 46X00 | 46X99 |
-| FES (QUIC) | 42XY0 | 42XY9 |
-| FES (UDP) | 47XY0 | 47XY9 |
-| SBS | 48XY0 | 48XY9 |
+| Service | From | To | Notes |
+| --- | --- | --- | --- |
+| Shard Services | 3XY00 | 3XY99 | |
+| BS | 43000 | 43999 | |
+| Patchman Services | 44000 | 44999 | |
+| NS | 45ZZZ | | |
+| Domain Services | 46X00 | 46X99 | |
+| FES (QUIC) | 42XY0 | 42XY9 | |
+| FES (UDP) | 47XY0 | 47XY9 | Always -5000 from FES (UDP) |
+| SBS | 48XY0 | 48XY9 | Always +1000 from FES (UDP) |
 
 | Service | Port | Development |
 | --- | --- | --- |
