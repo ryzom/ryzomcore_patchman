@@ -27,8 +27,12 @@ do
   sleep 2
 done
 
-# stop the screen for the shard (if there is one)
+# stop the screen for the shard (if there is one), or its servdash_cli dashboard
 screen -drR -S $DOMAIN -X quit> /dev/null
+if [ -e /home/nevrax/use_servdash ]
+then
+	/home/nevrax/bin/servdash_cli --shutdown /home/nevrax/$DOMAIN/$DOMAIN.ini > /dev/null 2>&1
+fi
 sleep 1
 
 # rename any old core files
@@ -103,7 +107,7 @@ echo "cd "$(pwd) >> $SCRIPT_FILE
 echo '/bin/sh /home/nevrax/bin/ryzom_domain_screen_wrapper.sh $*' >> $SCRIPT_FILE
 chmod +x $SCRIPT_FILE
 
-# launch the screen again now that were all done (aes will launch everybody when he comes online)
+# launch the screen or the dashboard again now that were all done (aes will launch everybody when he comes online)
 cp /home/nevrax/$DOMAIN/${DOMAIN}.screen.rc /home/nevrax/${DOMAIN}.screen.rc
 #screen -S $DOMAIN -d -m -c /home/nevrax/${DOMAIN}.screen.rc
 $SCRIPT_FILE batchstart

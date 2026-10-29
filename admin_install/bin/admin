@@ -2,12 +2,28 @@
 
 CMD=$*
 
+# the patchman services run in screen sessions, or under a servdash_cli dashboard when the
+# file /home/nevrax/use_servdash exists; the dashboard is written to /home/nevrax/admin.ini
+DASHBOARD=screen
+if [ -e /home/nevrax/use_servdash ]
+then
+	DASHBOARD=servdash
+fi
+SERVDASH=/home/nevrax/bin/servdash_cli
+ADMIN_INI=/home/nevrax/admin.ini
+
 if [ "$CMD" = "" ]
 then
 
     echo
-    echo Screen sessions currently running:
-    screen -list
+    if [ "$DASHBOARD" = "servdash" ]
+    then
+        echo Dashboards currently running:
+        $SERVDASH --list
+    else
+        echo Screen sessions currently running:
+        screen -list
+    fi
     echo
     echo "Commands:"
     echo "  'start' to start the admin"
@@ -21,7 +37,12 @@ fi
 
 if [ "$CMD" = "stop" ]
 then
-	for s in $(screen -list | grep "\.admin.*" | awk '{ print $1 }'); do screen -drR $s -X quit; done
+	if [ "$DASHBOARD" = "servdash" ]
+	then
+		$SERVDASH --shutdown $ADMIN_INI
+	else
+		for s in $(screen -list | grep "\.admin.*" | awk '{ print $1 }'); do screen -drR $s -X quit; done
+	fi
 fi
 
 if [ "$CMD" = "start" ]
@@ -29,11 +50,31 @@ then
 	# force the ulimit just in case (so that we can generate cores)
 	ulimit -c unlimited
 
-	# stop any admin sessions that were already up
-	for s in $(screen -list | grep "\.admin.*" | awk '{ print $1 }'); do screen -drR $s -X quit; done
+	if [ "$DASHBOARD" = "servdash" ]
+	then
+		# stop any admin dashboard that was already up
+		$SERVDASH --shutdown $ADMIN_INI
 
-	# start the main admin session
-    screen -d -m -S admin -c /home/nevrax/bin/admin.screen.rc
+		# the dashboard of the patchman services of this host: the patchman itself, then the special roles
+		echo "[]" > $ADMIN_INI
+		echo "Title=admin $(hostname -s)" >> $ADMIN_INI
+		echo >> $ADMIN_INI
+		echo "[patchman]" >> $ADMIN_INI
+		echo "Title=patchman" >> $ADMIN_INI
+		echo "WorkingDirectory=/home/nevrax/patchman" >> $ADMIN_INI
+		echo "LaunchCmd=/bin/sh" >> $ADMIN_INI
+		echo "LaunchArgs=/home/nevrax/patchman/patchman_once.sh" >> $ADMIN_INI
+		echo "Control=1" >> $ADMIN_INI
+		echo "RestartDelay=2" >> $ADMIN_INI
+		echo "Priority=0" >> $ADMIN_INI
+		echo >> $ADMIN_INI
+	else
+		# stop any admin sessions that were already up
+		for s in $(screen -list | grep "\.admin.*" | awk '{ print $1 }'); do screen -drR $s -X quit; done
+
+		# start the main admin session
+		screen -d -m -S admin -c /home/nevrax/bin/admin.screen.rc
+	fi
 
 	# decide which hostname to use...
 	HOSTNAME=$(hostname)
@@ -41,7 +82,7 @@ then
 	then
 		HOSTNAME=$(hostname -s)
 	fi
-	
+
 	# if this machine has associated special admin functins then start the appropriate admin sessions
 	echo Looking for sessions for host: $HOSTNAME
 	for ROLE in $(grep \ $HOSTNAME\$ /home/nevrax/patchman/special_patchman_list | awk '{ print $1 }')
@@ -57,25 +98,45 @@ then
 		  SCREEN_NAME=admin_$ROLE
 		  mkdir -p $ROLE_DIR
 		  cp -v $SRC_CFG_FILE $CFG_FILE
-	
-          # wait 2 seconds before launching the next admin to reduce system conflict
-		  sleep 2
 
-		  # start the next patchman in its own screen session
-		  pushd $ROLE_DIR > /dev/null
-		  echo STARTING $SCREEN_NAME \($ROLE\)
-		  screen -d -m -S $SCREEN_NAME /bin/sh /home/nevrax/patchman/loop_special_patchman.sh /home/nevrax/patchman/ryzom_patchman_service -L. -C.
-		  popd > /dev/null
+		  if [ "$DASHBOARD" = "servdash" ]
+		  then
+			  # a section in the admin dashboard; the dashboard restarts it, as the loop script does
+			  echo ADDING $ROLE to $ADMIN_INI
+			  echo "[$ROLE]" >> $ADMIN_INI
+			  echo "Title=$ROLE" >> $ADMIN_INI
+			  echo "WorkingDirectory=$ROLE_DIR" >> $ADMIN_INI
+			  echo "LaunchCmd=/home/nevrax/patchman/ryzom_patchman_service" >> $ADMIN_INI
+			  echo "LaunchArgs=-L. -C." >> $ADMIN_INI
+			  echo "Control=1" >> $ADMIN_INI
+			  echo "RestartDelay=3" >> $ADMIN_INI
+			  echo "Priority=1" >> $ADMIN_INI
+			  echo >> $ADMIN_INI
+		  else
+			  # wait 2 seconds before launching the next admin to reduce system conflict
+			  sleep 2
+
+			  # start the next patchman in its own screen session
+			  pushd $ROLE_DIR > /dev/null
+			  echo STARTING $SCREEN_NAME \($ROLE\)
+			  screen -d -m -S $SCREEN_NAME /bin/sh /home/nevrax/patchman/loop_special_patchman.sh /home/nevrax/patchman/ryzom_patchman_service -L. -C.
+			  popd > /dev/null
+		  fi
 
 	  else
 		  # the patchman\'s cfg couln\'t be found so complain and ignore
 		  echo FILE NOT FOUND: $SRC_CFG_FILE
 	  fi
 	done
-	
+
+	if [ "$DASHBOARD" = "servdash" ]
+	then
+		# start the admin dashboard detached; 'admin join' attaches to it
+		$SERVDASH -d $ADMIN_INI
+	fi
 
 	# try launching the screen sessions that correspond to the machine type that we have...
-	
+
 	# get the domain list
 	cd /home/nevrax/patchman/
 	if [ $(grep \ $(hostname)\$ auto_start_domain_list |wc -l) -gt 0 ]
@@ -91,27 +152,40 @@ then
 		echo "There are no domains to be autostarted here"
 		DOMAIN_LIST=none
 	fi
-	
+
 	# if we have a domain list for this machine then deal with it...
 	if [ "$DOMAIN_LIST" != none ]
 	then
 		# iterate over the domain list...
 		for f in $DOMAIN_LIST
 		do
-			# see if we're setup to run this domain
-			if [ -e /home/nevrax/${f}.screen.rc ] && [ -e /home/nevrax/bin/domain_${f} ]
+			if [ "$DASHBOARD" = "servdash" ]
 			then
-				# see whether the domain is alredy running
-				if [ $( screen -list | grep \\\.${f} | wc -w ) = 0 ]
+				# see if we're setup to run this domain
+				if [ -e /home/nevrax/${f}/${f}.ini ] && [ -e /home/nevrax/bin/domain_${f} ]
 				then
-					# the domain isn't running yet so start it
+					# the domain script starts the dashboard unless it runs already
 					echo '****' starting domain: $f '****'
 					/home/nevrax/bin/domain_$f batchstart
 				else
-					echo '****' Domain is already running: $f '****'
+					echo skipping domain: $f
 				fi
 			else
-				echo skipping domain: $f
+				# see if we're setup to run this domain
+				if [ -e /home/nevrax/${f}.screen.rc ] && [ -e /home/nevrax/bin/domain_${f} ]
+				then
+					# see whether the domain is alredy running
+					if [ $( screen -list | grep \\\.${f} | wc -w ) = 0 ]
+					then
+						# the domain isn't running yet so start it
+						echo '****' starting domain: $f '****'
+						/home/nevrax/bin/domain_$f batchstart
+					else
+						echo '****' Domain is already running: $f '****'
+					fi
+				else
+					echo skipping domain: $f
+				fi
 			fi
 		done
 	fi
@@ -119,11 +193,21 @@ fi
 
 if [ "$CMD" = "join" ]
 then
-    screen -r -S admin
+	if [ "$DASHBOARD" = "servdash" ]
+	then
+		$SERVDASH -a $ADMIN_INI
+	else
+		screen -r -S admin
+	fi
 fi
 
 if [ "$CMD" = "share" ]
 then
-    screen -r -x -S admin
+	if [ "$DASHBOARD" = "servdash" ]
+	then
+		# several terminals attach to one dashboard
+		$SERVDASH -a $ADMIN_INI
+	else
+		screen -r -x -S admin
+	fi
 fi
-

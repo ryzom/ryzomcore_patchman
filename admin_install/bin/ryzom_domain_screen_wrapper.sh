@@ -3,12 +3,29 @@
 CMD=$1
 DOMAIN=$(pwd|sed s%/home/nevrax/%%)
 
+# the domain runs in a screen session from /home/nevrax/<domain>.screen.rc, or under a
+# servdash_cli dashboard from /home/nevrax/<domain>/<domain>.ini when the file
+# /home/nevrax/use_servdash exists; the patch applier writes both files
+DASHBOARD=screen
+if [ -e /home/nevrax/use_servdash ]
+then
+	DASHBOARD=servdash
+fi
+SERVDASH=/home/nevrax/bin/servdash_cli
+DOMAIN_INI=/home/nevrax/${DOMAIN}/${DOMAIN}.ini
+
 if [ "$CMD" = "" ]
 then
 
     echo
-    echo Screen sessions currently running:
-    screen -list
+    if [ "$DASHBOARD" = "servdash" ]
+    then
+        echo Dashboards currently running:
+        $SERVDASH --list
+    else
+        echo Screen sessions currently running:
+        screen -list
+    fi
     echo
     echo "Commands:"
     echo "  'start' to start the shard"
@@ -23,7 +40,12 @@ fi
 
 if [ "$CMD" = "stop" ]
 then
-    if [ $(screen -list | grep \\\.${DOMAIN} | wc -l) != 1 ]
+    if [ "$DASHBOARD" = "servdash" ]
+    then
+	$SERVDASH --shutdown $DOMAIN_INI
+	rm -v */*.state
+	rm -v */*launch_ctrl ./global.launch_ctrl
+    elif [ $(screen -list | grep \\\.${DOMAIN} | wc -l) != 1 ]
     then
 	echo Cannot stop domain \'${DOMAIN}\' because no screen by that name appears to be running
 	screen -list
@@ -35,28 +57,39 @@ then
 fi
 
 STARTARGS=
+SERVDASHARGS=
 if [ "$CMD" = "batchstart" ]
 then
     STARTARGS='-d -m'
+    SERVDASHARGS='-d'
     CMD='start'
 fi
 
 if [ "$CMD" = "start" ]
 then
 	ulimit -c unlimited
-	screen -wipe > /dev/null
-	if [ $( screen -list | grep \\\.${DOMAIN} | wc -w ) != 0 ]
+	if [ "$DASHBOARD" = "servdash" ]
 	then
-		echo Cannot start domain \'${DOMAIN}\' because this domain is already started
-		screen -list | grep $DOMAIN
+		# starts the dashboard daemon when none runs, then attaches (batchstart only starts it)
+		$SERVDASH $SERVDASHARGS $DOMAIN_INI
 	else
-	    screen $STARTARGS -S ${DOMAIN} -c /home/nevrax/${DOMAIN}.screen.rc
+		screen -wipe > /dev/null
+		if [ $( screen -list | grep \\\.${DOMAIN} | wc -w ) != 0 ]
+		then
+			echo Cannot start domain \'${DOMAIN}\' because this domain is already started
+			screen -list | grep $DOMAIN
+		else
+		    screen $STARTARGS -S ${DOMAIN} -c /home/nevrax/${DOMAIN}.screen.rc
+		fi
 	fi
 fi
 
 if [ "$CMD" = "join" ]
 then
-    if [ $(screen -list | grep \\\.${DOMAIN} | wc -l) != 1 ]
+    if [ "$DASHBOARD" = "servdash" ]
+    then
+    $SERVDASH -a $DOMAIN_INI
+    elif [ $(screen -list | grep \\\.${DOMAIN} | wc -l) != 1 ]
     then
     echo Cannot join domain \'${DOMAIN}\' because no screen by that name appears to be running
     screen -list
@@ -67,7 +100,11 @@ fi
 
 if [ "$CMD" = "share" ]
 then
-    if [ $(screen -list | grep \\\.${DOMAIN} | wc -l) != 1 ]
+    if [ "$DASHBOARD" = "servdash" ]
+    then
+    # several terminals attach to one dashboard
+    $SERVDASH -a $DOMAIN_INI
+    elif [ $(screen -list | grep \\\.${DOMAIN} | wc -l) != 1 ]
     then
     echo Cannot join domain \'${DOMAIN}\' because no screen by that name appears to be running
     screen -list
@@ -79,6 +116,10 @@ fi
 if [ "$CMD" = "state" ]
 then
     echo State of domain ${DOMAIN}:
+    if [ "$DASHBOARD" = "servdash" ]
+    then
+    $SERVDASH --status $DOMAIN_INI
+    fi
     if [ $(echo */*.state) = "*/*.state" ]
     then
 		echo - No state files found

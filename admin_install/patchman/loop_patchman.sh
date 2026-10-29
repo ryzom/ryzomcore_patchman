@@ -12,6 +12,7 @@ do
 	  chmod 775 bin/shard 2> /dev/null
 	  chmod 775 bin/domain_* 2> /dev/null
 	  chmod 775 bin/startup 2> /dev/null
+	  chmod 775 bin/servdash_cli 2> /dev/null
 	  chmod 775 bin/*.sh 2> /dev/null
 	  chmod 775 patchman/*_service 2> /dev/null
 	  chmod 775 patchman/*.sh 2> /dev/null

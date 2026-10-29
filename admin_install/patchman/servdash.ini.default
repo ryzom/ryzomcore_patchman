@@ -1,0 +1,12 @@
+; Sections every domain dashboard starts with; the patch applier writes <domain>/<domain>.ini
+; from this file plus a section per service of the domain on this host, next to the screen rc.
+; The dashboard runs from the domain directory, so paths are relative to it.
+
+[aes]
+Title=aes
+LaunchCmd=/bin/sh
+LaunchArgs=/home/nevrax/patchman/aes_once.sh
+Control=1
+RestartDelay=2
+Priority=0
+
