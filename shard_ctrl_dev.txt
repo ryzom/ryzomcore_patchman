@@ -29,14 +29,18 @@ define domain_dev
 
 	// domain hosts
 	cfg AESHost="localhost";
-	cfg SUHost = "NL_HOSTNAME";
-	cfg MFSHost = "NL_HOSTNAME";
-	cfg BSHost = "NL_HOSTNAME:43990";
-	cfg PDBSHost= "NL_HOSTNAME:43991";
-	cfg MasterLGSHost = "NL_HOSTNAME";
-	cfg SlaveLGSHost = "NL_HOSTNAME";
-	cfg LGSBSHost = "NL_HOSTNAME";
+	cfg SUHost = "localhost";
+	cfg MFSHost = "localhost";
+	cfg BSHost = "localhost:43990";
+	cfg PDBSHost= "localhost:43991";
+	cfg MasterLGSHost = "localhost";
+	cfg SlaveLGSHost = "localhost";
+	cfg LGSBSHost = "localhost";
 	cfg DBHost = "localhost";
+
+	// the development domain runs on one machine: every service port binds to localhost,
+	// only the client ports of the FES (UDP and QUIC) and the web server stay reachable from the network
+	cfg BindAddress = "127.0.0.1";
 	cfg DBPort = "9040";
 	cfgAfter WebSrvHost = "http://NL_HOSTNAME:9042";
 
@@ -98,7 +102,7 @@ define shard_dev_mainland
 	cfg StringManagerCacheDirectory = "../data_shard_mainland";
 	cfg LogChatDirectory = "../data_shard_mainland";
 	cfgAfter NSPort = 45901;
-	cfgAfter NSHost = "NL_HOSTNAME:45901";
+	cfgAfter NSHost = "localhost:45901";
 	cfgFile ../cfg/02_shard_type_std_mainland.cfg
 	// Activate logging of time consuming AStar searches
 	// cfg LogTimeConsumingAStar = 1;
@@ -128,4 +132,4 @@ define shard_dev_ring
 	cfgFile ../cfg/02_shard_type_mini_ring.cfg
 	host NL_HOSTNAME
 	cfgAfter NSPort = 45911;
-	cfgAfter NSHost = "NL_HOSTNAME:45911";
+	cfgAfter NSHost = "localhost:45911";
