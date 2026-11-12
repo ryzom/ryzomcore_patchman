@@ -111,6 +111,7 @@ define shard_dev_mainland
 
 define shard_exe_set_dev_mainland
 	use exe_set_all_mainland
+	use mos
 	host NL_HOSTNAME
 	cfg FSListenHost = "NL_HOSTNAME"; // FES
 	// cfgAfter ClientCommandsPrivilegesFile = "client_commands_privileges_open.txt"; // EGS
