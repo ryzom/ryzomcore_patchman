@@ -274,15 +274,10 @@ define ais
 	use shard_common
 	cfg #include "../live/service_ai_service/ai_service.cfg"
 	cfg WriteFilesDirectory= "../live/service_ai_service/";
-	cfgAfter GraphVars += {	"TickSpeedLoop", "0" };
 	cfgAfter GraphVars += {	"TickSpeedLoop", "60000" };
-	cfgAfter GraphVars += {	"L5CallbackCount", "0" };
 	cfgAfter GraphVars += {	"L5CallbackCount", "60000" };
-	cfgAfter GraphVars += {	"L5CallbackTime", "0" };
 	cfgAfter GraphVars += {	"L5CallbackTime", "60000" };
-	cfgAfter GraphVars += {	"MirrorCallbackCount", "0" };
 	cfgAfter GraphVars += {	"MirrorCallbackCount", "60000" };
-	cfgAfter GraphVars += {	"MirrorCallbackTime", "0" };
 	cfgAfter GraphVars += {	"MirrorCallbackTime", "60000" };
 
 define ais_ring
@@ -551,19 +546,12 @@ define egs
 	cfgAfter 	"asm.plug gw",
 	cfgAfter };
 	cfgAfter GraphVars += {	"NbPlayers", "60000" };
-	cfgAfter GraphVars += {	"CharacterLoadPerTick", "0" };
 	cfgAfter GraphVars += {	"CharacterLoadPerTick", "60000" };
-	cfgAfter GraphVars += {	"CharacterSavePerTick", "0" };
 	cfgAfter GraphVars += {	"CharacterSavePerTick", "60000" };
-	cfgAfter GraphVars += {	"TickSpeedLoop", "0" };
 	cfgAfter GraphVars += {	"TickSpeedLoop", "60000" };
-	cfgAfter GraphVars += {	"L5CallbackCount", "0" };
 	cfgAfter GraphVars += {	"L5CallbackCount", "60000" };
-	cfgAfter GraphVars += {	"L5CallbackTime", "0" };
 	cfgAfter GraphVars += {	"L5CallbackTime", "60000" };
-	cfgAfter GraphVars += {	"MirrorCallbackCount", "0" };
 	cfgAfter GraphVars += {	"MirrorCallbackCount", "60000" };
-	cfgAfter GraphVars += {	"MirrorCallbackTime", "0" };
 	cfgAfter GraphVars += {	"MirrorCallbackTime", "60000" };
 	cfgAfter RingRPXPRequiredPerAction=700;
 	cfgAfter RingRPXPRequiredPerTimeSlice=700;
@@ -638,15 +626,10 @@ define fes
 	cmdLine frontend_service -C. -L. --nobreak --writepid
 	cfg #include "../live/service_frontend_service/frontend_service.cfg"
 	cfg WriteFilesDirectory="../live/service_frontend_service/";
-	cfgAfter GraphVars += {	"TickSpeedLoop", "0" };
 	cfgAfter GraphVars += {	"TickSpeedLoop", "60000" };
-	cfgAfter GraphVars += {	"L5CallbackCount", "0" };
 	cfgAfter GraphVars += {	"L5CallbackCount", "60000" };
-	cfgAfter GraphVars += {	"L5CallbackTime", "0" };
 	cfgAfter GraphVars += {	"L5CallbackTime", "60000" };
-	cfgAfter GraphVars += {	"MirrorCallbackCount", "0" };
 	cfgAfter GraphVars += {	"MirrorCallbackCount", "60000" };
-	cfgAfter GraphVars += {	"MirrorCallbackTime", "0" };
 	cfgAfter GraphVars += {	"MirrorCallbackTime", "60000" };
 
 define fes_solo
@@ -695,15 +678,10 @@ define gpms
 	data data_pacs_prim
 	cfg #include "../live/service_gpm_service/gpm_service.cfg"
 	cfg WriteFilesDirectory="../live/service_gpm_service/";
-	cfgAfter GraphVars += {	"TickSpeedLoop", "0" };
 	cfgAfter GraphVars += {	"TickSpeedLoop", "60000" };
-	cfgAfter GraphVars += {	"L5CallbackCount", "0" };
 	cfgAfter GraphVars += {	"L5CallbackCount", "60000" };
-	cfgAfter GraphVars += {	"L5CallbackTime", "0" };
 	cfgAfter GraphVars += {	"L5CallbackTime", "60000" };
-	cfgAfter GraphVars += {	"MirrorCallbackCount", "0" };
 	cfgAfter GraphVars += {	"MirrorCallbackCount", "60000" };
-	cfgAfter GraphVars += {	"MirrorCallbackTime", "0" };
 	cfgAfter GraphVars += {	"MirrorCallbackTime", "60000" };
 
 // GPMS requires data for all the walkable zones on the entire shard
@@ -860,11 +838,8 @@ define ms
 	cmdLine mirror_service -C. -L. --nobreak --writepid
 	cfg #include "../live/service_mirror_service/mirror_service.cfg"
 	cfg WriteFilesDirectory="../live/service_mirror_service/";
-	cfgAfter GraphVars += {	"UserSpeedLoop", "0" };
 	cfgAfter GraphVars += {	"UserSpeedLoop", "60000" };
-	cfgAfter GraphVars += {	"L5CallbackCount", "0" };
 	cfgAfter GraphVars += {	"L5CallbackCount", "60000" };
-	cfgAfter GraphVars += {	"L5CallbackTime", "0" };
 	cfgAfter GraphVars += {	"L5CallbackTime", "60000" };
 
 define ms_mini_ring
@@ -936,11 +911,8 @@ define sbs
 	cfg		"moduleManager.createModule SessionBrowserServerMod sbs suAddr="+SUHost+":"+RSMPort+" listenPort="+SBSPort+" ring_db(host="+DBHost+" user="+DBRingUser+" password="+DBRingPass+" base="+DBRingName+" port="+DBPort+")",
 	cfg		"sbs.plug gw",
 	cfg };
-	cfgAfter GraphVars += {	"NetSpeedLoop", "0" };
 	cfgAfter GraphVars += {	"NetSpeedLoop", "60000" };
-	cfgAfter GraphVars += {	"L5CallbackCount", "0" };
 	cfgAfter GraphVars += {	"L5CallbackCount", "60000" };
-	cfgAfter GraphVars += {	"L5CallbackTime", "0" };
 	cfgAfter GraphVars += {	"L5CallbackTime", "60000" };
 
 
@@ -963,11 +935,8 @@ define su
 //	cfgAfter	"addNegativeFilterDebug NOPE",
 	cfgAfter };
 	cfgAfter GraphVars += {	"TotalConcurentUser", "60000" };
-	cfgAfter GraphVars += {	"NetSpeedLoop", "0" };
 	cfgAfter GraphVars += {	"NetSpeedLoop", "60000" };
-	cfgAfter GraphVars += {	"L5CallbackCount", "0" };
 	cfgAfter GraphVars += {	"L5CallbackCount", "60000" };
-	cfgAfter GraphVars += {	"L5CallbackTime", "0" };
 	cfgAfter GraphVars += {	"L5CallbackTime", "60000" };
 	
 
