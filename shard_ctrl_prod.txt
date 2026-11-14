@@ -67,7 +67,7 @@ define domain_prod
 	// default minimal access
 	// cfgAfter DefaultCharRingAccess="a1";
 	// full ring access rights
-	cfgAfter DefaultCharRingAccess="f7:j7:l6:d7:p13:g9:a9";
+	cfgAfter DefaultCharRingAccess="f7:j7:l6:d7:p13:g9:a9:o9";
 	// cfgAfter RingAccessLimits="d3:j2:f2:l2:p2";
 	cfgAfter RingRPEnabled=0;
 	cfgAfter DomainName = "prod";
